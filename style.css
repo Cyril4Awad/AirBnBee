@@ -44,6 +44,8 @@ body {
 
 .house_img{
     width: 600px;
+    height: 500px;
+    border-radius: 1rem;
     
 }
 
@@ -61,10 +63,15 @@ body {
     }
 
     .left-box {
-        height: 100px;
+        height: 200px;
         overflow: hidden;
         
     }
+    .house_img{
+        width: 500px;
+        height: 200px !important;
+    }
+    
 
     .right-box {
         padding: 20px;
