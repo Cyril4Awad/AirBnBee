@@ -2,3 +2,33 @@
     width: 90px;
     height: 64px;
 }
+
+#featured-listings {
+    margin: 20px 0;
+}
+
+.listing {
+    display: inline-block;
+    width: 30%; /* Adjust width as needed */
+    margin: 0 1.5%;
+    vertical-align: top;
+    text-align: center;
+}
+
+.listing img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.listing h3 {
+    margin: 10px 0;
+}
+
+.listing p {
+    margin-bottom: 10px;
+}
+
+.listing span {
+    display: block;
+    font-weight: bold;
+}
