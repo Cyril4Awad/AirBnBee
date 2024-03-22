@@ -1,0 +1,22 @@
+#bee_img {
+    width: 150px;
+    height: 90px;
+    border-radius: 1rem 0 0 1rem;
+    margin-left: -80px !important;
+
+}
+
+.login_img {
+    border-radius: 1rem 0 0 1rem;
+    margin-right: 0px;
+    height: 690px;
+    aspect-ratio: auto 486 / 690;
+    width: 486px;
+}
+
+
+.body_color {
+    background-color: #4c4c49;
+}
+
+
