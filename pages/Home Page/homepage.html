@@ -65,36 +65,19 @@
         </form>
         <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
           <div class="container-fluid">
-            <ul class="navbar-nav">
-
-              <!-- Avatar -->
-              <li class="nav-item dropdown">
-                <a data-toggle="dropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#"
-                  id="navbarDropdownMenuLink" role="button" aria-expanded="false">
-                  <img src="../../assets/images/Blank Profile.jpg" class="rounded-circle" height="40" loading="lazy" />
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="dropdownMenuItems">
-                  <li id="profileOption" style="display: none;">
-                    <a class="dropdown-item" href="#">My profile</a>
+              <ul class="navbar-nav">
+                  <!-- Log In Button -->
+                  <li class="nav-item">
+                      <a class="nav-link login-button" href="../Log In/login.html">Log In</a>
                   </li>
-
-                  <li id="logoutOption" style="display: none;">
-                    <a class="dropdown-item" href="#">Logout</a>
+                  <!-- Sign Up Button -->
+                  <li class="nav-item">
+                      <a class="nav-link signup-button" href="../Sign Up/sign-up.html">Sign Up</a>
                   </li>
-                  <li id="loginOption">
-                    <a class="dropdown-item" href="../Log In/login.html">Log In</a>
-                  </li>
-                  <li id="signupOption">
-                    <a class="dropdown-item" href="../Sign Up/sign-up.html">Sign Up</a>
-                  </li>
-                  <li id="settingsOption">
-                    <a class="dropdown-item" href="#">Settings</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+              </ul>
           </div>
-      </div>
+      </nav>
+      
   </nav>
 
   <!-- Carousel Listings  -->
@@ -136,7 +119,7 @@
 
         <!-- Favorite Icon -->
         <a class="carousel-favorite" href="#">
-          <span class="glyphicon glyphicon-heart-empty"></span>
+          <span class="glyphicon glyphicon-heart-empty"  id="favorite" onclick="changeClass(this)"></span>
           <span class="sr-only">Favorite</span>
         </a>
 
@@ -172,19 +155,19 @@
         </div>
 
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#Listing1Carousel" data-slide="prev">
+        <a class="left carousel-control" href="#Listing2Carousel" data-slide="prev">
           <span class="glyphicon glyphicon-chevron-left"></span>
           <span class="sr-only">Previous</span>
         </a>
 
-        <a class="right carousel-control" href="#Listing1Carousel" data-slide="next">
+        <a class="right carousel-control" href="#Listing2Carousel" data-slide="next">
           <span class="glyphicon glyphicon-chevron-right"></span>
           <span class="sr-only">Next</span>
         </a>
 
         <!-- Favorite Icon -->
         <a class="carousel-favorite" href="#">
-          <span class="glyphicon glyphicon-heart-empty"></span>
+          <span class="glyphicon glyphicon-heart-empty" id="favorite" onclick="changeClass(this)"></span>
           <span class="sr-only">Favorite</span>
         </a>
 
@@ -197,47 +180,6 @@
     </div>
     <!-- end of the listing -->
 
-    <div class="listing">
-      <img src="../../assets/images/Listing 3/Listing3.jpg" alt="Listing 3">
-      <h3>Listing 3</h3>
-      <p>972 Kilometers away <br> Apr 8-13</p>
-      <span>$200/night</span>
-    </div>
-
-    <div class="listing">
-      <img src="../../assets/images/Listing 4/Listing4.jpg" alt="Listing 4">
-      <h3>Listing 4</h3>
-      <p>1,052 Kilometers away <br> May 15-20</p>
-      <span>$180/night</span>
-    </div>
-
-    <div class="listing">
-      <img src="../../assets/images/Listing 5/Listing5.jpg" alt="Listing 5">
-      <h3>Rethimno, Greece</h3>
-      <p>1,013 Kilometers away <br> Apr 14-19</p>
-      <span>$100/night</span>
-    </div>
-
-    <div class="listing">
-      <img src="../../assets/images/Listing 6/Listing6.jpg" alt="Listing 6">
-      <h3>Listing </h3>
-      <p>1,013 Kilometers away <br> Apr 16-21</p>
-      <span>$120/night</span>
-    </div>
-
-    <div class="listing">
-      <img src="../../assets/images/Listing 7/Listing7.jpg" alt="Listing 7">
-      <h3>Listing 3</h3>
-      <p>972 Kilometers away <br> Apr 8-13</p>
-      <span>$200/night</span>
-    </div>
-
-    <div class="listing">
-      <img src="../../assets/images/Listing 8/Listing8.jpg" alt="Listing 8">
-      <h3>Listing 4</h3>
-      <p>1,052 Kilometers away <br> May 15-20</p>
-      <span>$180/night</span>
-    </div>
   </section>
   </div>
 </body>

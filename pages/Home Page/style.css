@@ -294,7 +294,7 @@
     margin: 1px;
     text-indent: -999px;
     cursor: pointer;
-    background-color: #000\9;
+    background-color: #0009;
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid #fff;
     border-radius: 10px
@@ -355,4 +355,26 @@
     .carousel-indicators {
         bottom: 20px
     }
+}
+
+/* Custom style for Log In and Sign Up buttons */
+.navbar-nav .nav-item .nav-link.login-button,
+.navbar-nav .nav-item .nav-link.signup-button {
+    background-color: green; /* Set background color */
+    border: 2px solid green; /* Set border color */
+    padding: 10px 20px; /* Add padding */
+    border-radius: 5px; /* Add rounded corners */
+    color: white; /* Set text color */
+    margin-right: 10px; /* Add right margin for spacing between buttons */
+}
+
+/* Adjust margin for the last button to avoid extra space */
+.navbar-nav .nav-item:last-child .nav-link {
+    margin-right: 0;
+}
+
+/* Hover effect */
+.navbar-nav .nav-item .nav-link.login-button:hover,
+.navbar-nav .nav-item .nav-link.signup-button:hover {
+    background-color: darkgreen; /* Darken background color on hover */
 }
