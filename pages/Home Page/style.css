@@ -365,6 +365,7 @@
     padding: 10px 20px; /* Add padding */
     border-radius: 5px; /* Add rounded corners */
     color: white; /* Set text color */
+    margin: 10px;
     margin-right: 10px; /* Add right margin for spacing between buttons */
 }
 
