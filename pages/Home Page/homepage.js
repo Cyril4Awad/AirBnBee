@@ -87,16 +87,5 @@ function updateNavigationMenu() {
 // Example: Update navigation menu after user login
 updateNavigationMenu(); // Call this function after user login
 
-  // Function to automatically add listing to favorites when the heart icon is clicked
-  document.querySelectorAll('.carousel-favorite').forEach(function(element) {
-    element.addEventListener('click', function(event) {
-        // Get the listing ID from the href attribute
-        var listingId = this.getAttribute('href').split('#')[1];
-        // Get the listing HTML content
-        var listingContent = document.getElementById(listingId).innerHTML;
-        // Append the listing content to favorites.html
-        var favoritesPage = window.open('favorites.html', '_blank');
-        favoritesPage.document.write(listingContent);
-        event.preventDefault();
-    });
-});
+
+  
