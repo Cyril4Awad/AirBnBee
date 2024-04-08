@@ -1,0 +1,72 @@
+.logo_img {
+    width: 90px;
+    height: 64px;
+    margin-right: -30px;
+    margin-left: 0px;
+}
+
+/* Custom style for Log In and Sign Up buttons */
+.navbar-nav .nav-item .nav-link.login-button,
+.navbar-nav .nav-item .nav-link.signup-button {
+    background-color: green;
+    /* Set background color */
+    border: 2px solid green;
+    /* Set border color */
+    padding: 10px 20px;
+    /* Add padding */
+    border-radius: 5px;
+    /* Add rounded corners */
+    color: white;
+    /* Set text color */
+    margin: 10px;
+    margin-right: 10px;
+    /* Add right margin for spacing between buttons */
+}
+
+/* Adjust margin for the last button to avoid extra space */
+.navbar-nav .nav-item:last-child .nav-link {
+    margin-right: 0;
+}
+
+/* Hover effect */
+.navbar-nav .nav-item .nav-link.login-button:hover,
+.navbar-nav .nav-item .nav-link.signup-button:hover {
+    background-color: darkgreen;
+    /* Darken background color on hover */
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 60px repeat(4, 1fr);
+    width: 100vw;
+    height: 590px;
+}
+
+.img {
+    padding: 5%;
+}
+
+.img-style {
+    border-radius: 25px 0 0 25px;
+    padding: 5px;
+}
+
+.img-style1 {
+    border-radius: 0 25px 25px 0;
+    padding: 5px;
+}
+
+.img-style2 {
+    border-radius: 0%;
+    padding: 5px;
+}
+
+.sticky-container {
+    text-align: center;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 50%;
+    border: 2px solid black
+}
