@@ -98,50 +98,53 @@
         </div>
 
 
-        <div style="display: flex;">
+        <div class="left-container">
             <div>
                 <h1>Details</h1>
                 <p>Rating , Reviews</p>
-                <h1>Details About the Host
-                    Contact the Host
-                </h1>
+                <h1>Details About the Host</h1>
+                   <h1> Contact the Host</h1>
                 <p>about this place</p>
                 <h1>CALENDER</h1>
-                    <h1>Map</h1>
+                <h1>Map</h1>
             </div>
 
             <div class="sticky-container">
-                <h1>Reserve a Room</h1>
-                <form id="reservation-form">
-                    <label for="room">Room:</label>
-                    <select id="room" name="room">
-                        <!-- Add room options here -->
-                    </select><br>
-
-                    <label for="checkin">Check-in:</label>
-                    <input type="date" id="checkin" name="checkin" required><br>
-
-                    <label for="checkout">Checkout:</label>
-                    <input type="date" id="checkout" name="checkout" required><br>
-
-                    <label for="guests">Number of guests:</label>
-                    <input type="number" id="guests" name="guests" min="1" max="10" required><br>
-
-                    <label for="infants">Number of infants:</label>
-                    <input type="number" id="infants" name="infants" min="0" max="2" required><br>
-
-                    <label for="pets">Pets:</label>
-                    <select id="pets" name="pets">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select><br>
-
-                    <input type="submit" value="Reserve">
+                <h1> $/Night</h1>
+                <form class="reservation-form">
+                   <div><b> 
+                        <div class="checkin">
+                            <label for="check-in">CHECK-IN</label><br>
+                            <input type="date" id="check-in" name="check-in" value="2024-08-17">
+                        </div>
+                        <div class="checkout">
+                            <label for="check-out">CHECKOUT</label><br>
+                            <input type="date" id="check-out" name="check-out" value="2024-08-22">
+                        </div>
+                    </div>
+                    <div class="guest">
+                        <label for="guest">GUESTS</label>
+                        <select style="width: 90%;border: 0;" id="guest" name="guest">
+                            <option style="float: left;">1guest</option>
+                            <option style="float: left;">2guests</option>
+                            <option style="float: left;">3guests</option>
+                            <option style="float: left;">4guests</option>
+                        </select>
+                    </b></div>
                 </form>
+                
+                <button class="button" type="submit"><b>Reserve</b></button>
+                
+                <p>You won't be charged yet</p>
+                <div class="prices">
+                <p>$price x nbr nights <span style="float : right;">$: 0 </span> </p>
+                <p>Service fees <span style="float : right;">$: 0 </span></p> 
+                <hr>
+                <p><b>Total<span style="float : right;">$: 0 </span></b></p>
+                </div>
+
             </div>
-        </div>
-
-
-</body>
+            
+        </body>
 
 </html>
