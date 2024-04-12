@@ -29,8 +29,8 @@
 
   <!-- CSS file -->
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="map.css" />
 
- 
   <title>AirBnBee</title>
 </head>
 
@@ -65,295 +65,303 @@
         </form>
         <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
           <div class="container-fluid">
-              <ul class="navbar-nav">
-                  <!-- Log In Button -->
-                  <li class="nav-item">
-                      <a class="nav-link login-button" href="../Log In/login.html">Log In</a>
-                  </li>
-                  <!-- Sign Up Button -->
-                  <li class="nav-item">
-                      <a class="nav-link signup-button" href="../Sign Up/sign-up.html">Sign Up</a>
-                  </li>
-              </ul>
+            <ul class="navbar-nav">
+              <!-- Log In Button -->
+              <li class="nav-item">
+                <a class="nav-link login-button" href="../Log In/login.html">Log In</a>
+              </li>
+              <!-- Sign Up Button -->
+              <li class="nav-item">
+                <a class="nav-link signup-button" href="../Sign Up/sign-up.html">Sign Up</a>
+              </li>
+            </ul>
           </div>
-      </nav>
-      
+        </nav>
+
   </nav>
 
-<!-- Carousel Listings  -->
-<section id="featured-listings">
-  <div class="container-fluid">
-    <h2>Featured Listings</h2>
-
-    <a href="../Listing page/Listingpage.html">
-      <div class="listing">
-        <div id="Listing1Carousel" class="carousel slide" data-ride="carousel">
-          <ol class="carousel-indicators">
-            <li data-target="#Listing1Carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#Listing1Carousel" data-slide-to="1"></li>
-            <li data-target="#Listing1Carousel" data-slide-to="2"></li>
-            <li data-target="#Listing1Carousel" data-slide-to="3"></li>
-            <li data-target="#Listing1Carousel" data-slide-to="4"></li>
-            <li data-target="#Listing1Carousel" data-slide-to="5  "></li>
-          </ol>
-
-          <div class="carousel-inner">
-            <div class="item active">
-              <img src="../../assets/images/Listing 1/Image 1.jpg" alt="New york">
-            </div>
-
-
-            <div class="item">
-              <img src="../../assets/images/Listing 1/Image 2.jpg" alt="New york">
-            </div>
-
-            <div class="item">
-              <img src="../../assets/images/Listing 1/Image 3.jpg" alt="New york">
-            </div>
-
-            <div class="item">
-              <img src="../../assets/images/Listing 1/Image 4.jpg" alt="New york">
-            </div>
-
-            <div class="item">
-              <img src="../../assets/images/Listing 1/Image 5.jpg" alt="New york">
-            </div>
-
-            <div class="item">
-              <img src="../../assets/images/Listing 1/Image 6.jpg" alt="New york">
-            </div>
-
-          </div>
-
-          <!-- Left and right controls -->
-          <a class="left carousel-control" href="#Listing1Carousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-
-          <a class="right carousel-control" href="#Listing1Carousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only">Next</span>
-          </a>
-
-          <!-- Favorite Icon -->
-          <a class="carousel-favorite">
-            <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-            <span class="sr-only">Favorite</span>
-          </a>
-
-        </div>
-
-
-        <h3>Listing 1</h3>
-        <p>1,013 Kilometers away <br> Apr 14-19</p>
-        <span>$100/night</span>
-      </div>
-    </a>
-
-    <!-- beginning of the listing -->
-    <div class="listing">
-      <a href="#">
-      <div id="Listing2Carousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#Listing2Carousel" data-slide-to="0" class="active"></li>
-          <li data-target="#Listing2Carousel" data-slide-to="1"></li>
-          <li data-target="#Listing2Carousel" data-slide-to="2"></li>
-        </ol>
-
-        <div class="carousel-inner">
-          <div class="item active">
-            <img src="../../assets/images/Listing 2/Image 7.jpg" alt="Los Angeles">
-          </div>
-
-          <div class="item">
-            <img src="../../assets/images/Listing 2/Image 8.jpg" alt="Chicago">
-          </div>
-
-          <div class="item">
-            <img src="../../assets/images/Listing 2/Image 9.jpg" alt="New york">
-          </div>
-        </div>
-
-        <!-- Left and right controls -->
-        <a class="left carousel-control" href="#Listing2Carousel" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-
-        <a class="right carousel-control" href="#Listing2Carousel" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-          <span class="sr-only">Next</span>
-        </a>
-
-        <!-- Favorite Icon -->
-        <a class="carousel-favorite">
-          <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-          <span class="sr-only">Favorite</span>
-        </a>
-
-      </div>
-      <h3>Listing 2</h3>
-      <p>1,798 Kilometers away <br> Apr 14-19</p>
-      <span>$100/night</span>
+  <div>
+    <div class="map-container" >
+      <a href="../../pages/map/map.html">
+        <button class="mapbutton"> Show map</button>
       </a>
     </div>
 
-    <!-- end of the listing -->
-            <!-- beginning of the listing -->
-            <div class="listing">
-              <a href="#">
-              <div id="Listing3Carousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                  <li data-target="#Listing3Carousel" data-slide-to="0" class="active"></li>
-                  <li data-target="#Listing3Carousel" data-slide-to="1"></li>
-                  <li data-target="#Listing3Carousel" data-slide-to="2"></li>
-                </ol>
-      
-                <div class="carousel-inner">
-                  <div class="item active">
-                    <img src="../../assets/images/Listing 3/Image 10.jpg" alt="Los Angeles">
-                  </div>
-      
-                  <div class="item">
-                    <img src="../../assets/images/Listing 3/Image 11.jpg" alt="Chicago">
-                  </div>
-      
-                  <div class="item">
-                    <img src="../../assets/images/Listing 3/Image 12.jpg" alt="New york">
-                  </div>
-                </div>
-      
-                <!-- Left and right controls -->
-                <a class="left carousel-control" href="#Listing3Carousel" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-      
-                <a class="right carousel-control" href="#Listing3Carousel" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-                  <span class="sr-only">Next</span>
-                </a>
-      
-                <!-- Favorite Icon -->
-                <a class="carousel-favorite">
-                  <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-                  <span class="sr-only">Favorite</span>
-                </a>
-      
-              </div>
-      
-              <h3>Listing 3</h3>
-              <p>972 Kilometers away <br> Apr 8-13</p>
-              <span>$200/night</span>
-              </a>
-            </div>
-      
-            <!-- end of the listing -->
-      
-            <!-- beginning of the listing -->
-            <div class="listing">
-              <a href="#">
-              <div id="Listing4Carousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                  <li data-target="#Listing4Carousel" data-slide-to="0" class="active"></li>
-                  <li data-target="#Listing4Carousel" data-slide-to="1"></li>
-                  <li data-target="#Listing4Carousel" data-slide-to="2"></li>
-                </ol>
-      
-                <div class="carousel-inner">
-                  <div class="item active">
-                    <img src="../../assets/images/Listing 4/Image 14.jpg" alt="Los Angeles">
-                  </div>
-      
-                  <div class="item">
-                    <img src="../../assets/images/Listing 4/Image 15.jpg" alt="Chicago">
-                  </div>
-      
-                  <div class="item">
-                    <img src="../../assets/images/Listing 4/Image 16.jpg" alt="New york">
-                  </div>
-                </div>
-      
-                <!-- Left and right controls -->
-                <a class="left carousel-control" href="#Listing4Carousel" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-      
-                <a class="right carousel-control" href="#Listing4Carousel" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-                  <span class="sr-only">Next</span>
-                </a>
-      
-                <!-- Favorite Icon -->
-                <a class="carousel-favorite">
-                  <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-                  <span class="sr-only">Favorite</span>
-                </a>
-      
-              </div>
-      
-              <h3>Listing 4</h3>
-              <p>1,465 Kilometers away <br> May 15-20</p>
-              <span>$180/night</span>
-              </a>
-            </div>
-            <!-- end of the listing -->
-      
-            <!-- beginning of the listing -->
-            <div class="listing">
-              <a href="#">
-              <div id="Listing5Carousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                  <li data-target="#Listing5Carousel" data-slide-to="0" class="active"></li>
-                  <li data-target="#Listing5Carousel" data-slide-to="1"></li>
-                  <li data-target="#Listing5Carousel" data-slide-to="2"></li>
-                </ol>
-      
-                <div class="carousel-inner">
-                  <div class="item active">
-                    <img src="../../assets/images/Listing 5/Image 17.jpg" alt="Los Angeles">
-                  </div>
-      
-                  <div class="item">
-                    <img src="../../assets/images/Listing 5/Image 18.jpg" alt="Chicago">
-                  </div>
-      
-                  <div class="item">
-                    <img src="../../assets/images/Listing 5/Image 19.jpg" alt="New york">
-                  </div>
-                </div>
-      
-                <!-- Left and right controls -->
-                <a class="left carousel-control" href="#Listing5Carousel" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-      
-                <a class="right carousel-control" href="#Listing5Carousel" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-                  <span class="sr-only">Next</span>
-                </a>
-      
-                <!-- Favorite Icon -->
-                <a class="carousel-favorite">
-                  <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-                  <span class="sr-only">Favorite</span>
-                </a>
-      
-              </div>
-      
-              <h3>Listing 5</h3>
-            <p>276 Kilometers away <br> May 15-20</p>
-              <span>$180/night</span>
-              </a>
-            </div>
-            <!-- end of the listing -->
-          </div>
+    <!-- Carousel Listings  -->
+    <section id="featured-listings">
+      <div class="container-fluid">
+        <h2>Featured Listings</h2>
 
-  </section>
+        <a href="../Listing page/Listingpage.html">
+          <div class="listing">
+            <div id="Listing1Carousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#Listing1Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Listing1Carousel" data-slide-to="1"></li>
+                <li data-target="#Listing1Carousel" data-slide-to="2"></li>
+                <li data-target="#Listing1Carousel" data-slide-to="3"></li>
+                <li data-target="#Listing1Carousel" data-slide-to="4"></li>
+                <li data-target="#Listing1Carousel" data-slide-to="5  "></li>
+              </ol>
+
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img src="../../assets/images/Listing 1/Image 1.jpg" alt="New york">
+                </div>
+
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 1/Image 2.jpg" alt="New york">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 1/Image 3.jpg" alt="New york">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 1/Image 4.jpg" alt="New york">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 1/Image 5.jpg" alt="New york">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 1/Image 6.jpg" alt="New york">
+                </div>
+
+              </div>
+
+              <!-- Left and right controls -->
+              <a class="left carousel-control" href="#Listing1Carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+
+              <a class="right carousel-control" href="#Listing1Carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+              </a>
+
+              <!-- Favorite Icon -->
+              <a class="carousel-favorite">
+                <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                <span class="sr-only">Favorite</span>
+              </a>
+
+            </div>
+
+
+            <h3>Listing 1</h3>
+            <p>1,013 Kilometers away <br> Apr 14-19</p>
+            <span>$100/night</span>
+          </div>
+        </a>
+
+        <!-- beginning of the listing -->
+        <div class="listing">
+          <a href="#">
+            <div id="Listing2Carousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#Listing2Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Listing2Carousel" data-slide-to="1"></li>
+                <li data-target="#Listing2Carousel" data-slide-to="2"></li>
+              </ol>
+
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img src="../../assets/images/Listing 2/Image 7.jpg" alt="Los Angeles">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 2/Image 8.jpg" alt="Chicago">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 2/Image 9.jpg" alt="New york">
+                </div>
+              </div>
+
+              <!-- Left and right controls -->
+              <a class="left carousel-control" href="#Listing2Carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+
+              <a class="right carousel-control" href="#Listing2Carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+              </a>
+
+              <!-- Favorite Icon -->
+              <a class="carousel-favorite">
+                <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                <span class="sr-only">Favorite</span>
+              </a>
+
+            </div>
+            <h3>Listing 2</h3>
+            <p>1,798 Kilometers away <br> Apr 14-19</p>
+            <span>$100/night</span>
+          </a>
+        </div>
+
+        <!-- end of the listing -->
+        <!-- beginning of the listing -->
+        <div class="listing">
+          <a href="#">
+            <div id="Listing3Carousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#Listing3Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Listing3Carousel" data-slide-to="1"></li>
+                <li data-target="#Listing3Carousel" data-slide-to="2"></li>
+              </ol>
+
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img src="../../assets/images/Listing 3/Image 10.jpg" alt="Los Angeles">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 3/Image 11.jpg" alt="Chicago">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 3/Image 12.jpg" alt="New york">
+                </div>
+              </div>
+
+              <!-- Left and right controls -->
+              <a class="left carousel-control" href="#Listing3Carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+
+              <a class="right carousel-control" href="#Listing3Carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+              </a>
+
+              <!-- Favorite Icon -->
+              <a class="carousel-favorite">
+                <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                <span class="sr-only">Favorite</span>
+              </a>
+
+            </div>
+
+            <h3>Listing 3</h3>
+            <p>972 Kilometers away <br> Apr 8-13</p>
+            <span>$200/night</span>
+          </a>
+        </div>
+
+        <!-- end of the listing -->
+
+        <!-- beginning of the listing -->
+        <div class="listing">
+          <a href="#">
+            <div id="Listing4Carousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#Listing4Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Listing4Carousel" data-slide-to="1"></li>
+                <li data-target="#Listing4Carousel" data-slide-to="2"></li>
+              </ol>
+
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img src="../../assets/images/Listing 4/Image 14.jpg" alt="Los Angeles">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 4/Image 15.jpg" alt="Chicago">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 4/Image 16.jpg" alt="New york">
+                </div>
+              </div>
+
+              <!-- Left and right controls -->
+              <a class="left carousel-control" href="#Listing4Carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+
+              <a class="right carousel-control" href="#Listing4Carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+              </a>
+
+              <!-- Favorite Icon -->
+              <a class="carousel-favorite">
+                <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                <span class="sr-only">Favorite</span>
+              </a>
+
+            </div>
+
+            <h3>Listing 4</h3>
+            <p>1,465 Kilometers away <br> May 15-20</p>
+            <span>$180/night</span>
+          </a>
+        </div>
+        <!-- end of the listing -->
+
+        <!-- beginning of the listing -->
+        <div class="listing">
+          <a href="#">
+            <div id="Listing5Carousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#Listing5Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Listing5Carousel" data-slide-to="1"></li>
+                <li data-target="#Listing5Carousel" data-slide-to="2"></li>
+              </ol>
+
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img src="../../assets/images/Listing 5/Image 17.jpg" alt="Los Angeles">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 5/Image 18.jpg" alt="Chicago">
+                </div>
+
+                <div class="item">
+                  <img src="../../assets/images/Listing 5/Image 19.jpg" alt="New york">
+                </div>
+              </div>
+
+              <!-- Left and right controls -->
+              <a class="left carousel-control" href="#Listing5Carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+
+              <a class="right carousel-control" href="#Listing5Carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+              </a>
+
+              <!-- Favorite Icon -->
+              <a class="carousel-favorite">
+                <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                <span class="sr-only">Favorite</span>
+              </a>
+
+            </div>
+
+            <h3>Listing 5</h3>
+            <p>276 Kilometers away <br> May 15-20</p>
+            <span>$180/night</span>
+          </a>
+        </div>
+        <!-- end of the listing -->
+      </div>
+
+    </section>
   </div>
+
 </body>
 
 </html>
