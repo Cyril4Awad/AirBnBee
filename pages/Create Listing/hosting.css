@@ -1,0 +1,34 @@
+/* Add your custom CSS here */
+
+/* Style the form */
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Style the submit button */
+.btn-publish {
+    border-radius: 10px;
+    padding: 10px 30px;
+    background-color: #8BC34A; /* Yellow-green color */
+    border-color: #8BC34A;
+    color: white;
+}
+
+/* Add border around the form */
+.container {
+    border: 2px solid #8BC34A; /* Yellow-green color */
+    border-radius: 10px;
+    padding: 15px;
+}
+
+/* Responsive styling for small devices */
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+    .form-control,
+    .btn-publish {
+        width: 100%;
+    }
+}
