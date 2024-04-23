@@ -42,13 +42,14 @@
                         </h2>
                         <p>We are happy to have you back.</p>
                     </div>
+                    <form action="login.php" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control form-control-lg bg-light fs-6"
-                            placeholder="Email address">
+                           name="email" placeholder="Email address" required>
                     </div>
                     <div class="input-group mb-1">
                         <input type="password" class="form-control form-control-lg bg-light fs-6"
-                            placeholder="Password">
+                           name="password" placeholder="Password" required>
                     </div>
                     <div class="input-group mb-5 d-flex justify-content-between">
                         <div></div>
@@ -57,8 +58,9 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <button class="btn btn-lg btn-primary w-100 fs-6">Login</button>
+                        <button class="btn btn-lg btn-primary w-100 fs-6" name="login">Login</button>
                     </div>
+                </form>
                     <div class="row">
                         <small>Don't have an account? <a href="../Sign Up/sign-up.html">Sign Up</a></small>
                     </div>

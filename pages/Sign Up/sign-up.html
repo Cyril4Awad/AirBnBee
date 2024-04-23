@@ -42,21 +42,23 @@
                         </h3>
                         <p>Please use this form to Sign Up.</p>
                     </div>
+                    <form action="signup.php" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="First Name">
-                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Last Name">
+                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="First Name" name = "fname" required>
+                        <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Last Name" name = "lname" required>
                     </div>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control form-control-lg bg-light fs-6"
-                            placeholder="Email address">
+                            placeholder="Email address" name = "email" required>
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control form-control-lg bg-light fs-6"
-                            placeholder="Password">
+                            placeholder="Password" name = "password" required>
                     </div>
                     <div class="input-group mb-3">
-                        <button class="btn btn-lg btn-primary w-100 fs-6">Sign Up</button>
+                        <button class="btn btn-lg btn-primary w-100 fs-6" name = "signup">Sign Up</button>
                     </div>
+                </form>
                     <div class="row">
                         <small>Already have an account? <a href="../Log In/login.html">Login</a></small>
                     </div>
