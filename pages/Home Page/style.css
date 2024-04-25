@@ -49,6 +49,7 @@
     width: 30%;
     /* Adjust width as needed */
     margin: 0 1.5%;
+    padding: 10px 0;
     vertical-align: top;
     text-align: center;
 }
