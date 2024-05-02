@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-md-7 col-md-push-5">
 						<div class="booking-cta">
-							<h1><img src="/assets/images/AirBnBee logo.png" class="logo_img" >Host Your Ad</h1>
+							<h1> <img src="../../assets/images/AirBnBee logo.png" class="logo_img" />Host Your Ad</h1>
 							<p>"Ready to showcase your property to the world? Join our platform for hassle-free ad
 								hosting! With our user-friendly interface and global reach, reaching potential guests
 								has never been easier. Start hosting your ad today and unlock the full potential of your
@@ -31,39 +31,57 @@
 					</div>
 					<div class="col-md-5 col-md-pull-7">
 						<div class="booking-form">
-							<form>
+							<form action="hosting.php" method="post">
 
 								<div class="form-group mb-3">
 									<label for="title" class="form-label">Title</label>
-									<input type="text" class="form-control" id="title"
+									<input type="text" class="form-control" name="title" id="title"
 										placeholder="Enter a title for your ad" required>
 								</div>
 								<div class="mb-3">
 									<label for="description" class="form-label">Description</label>
-									<textarea class="form-control" id="description" rows="3"
+									<textarea class="form-control" name="description" id="description" rows="3"
 										placeholder="Describe your place"></textarea>
 								</div>
 								<div class="row mb-3">
 									<div class="col-md-6">
+										<label for="type" class="form-label">Property Type</label>
+										<select class="form-select" name="type" id="type" required>
+											<option value="apartment">Apartment</option>
+											<option value="private">Private Room</option>
+											<option value="villa">Villa</option>
+											<option value="shared">Shared Room</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label for="size" class="form-label">Size (m²)</label>
+										<input type="number" class="form-control" id="size"
+											placeholder="Enter the Size" name="size" min="50" required>
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+									<div class="col-md-6">
 										<label for="price" class="form-label">Price per night ($)</label>
 										<input type="number" class="form-control" id="price"
-											placeholder="Enter the price" min="80" required >
+											placeholder="Enter the price" name="price" min="80" required>
 									</div>
 									<div class="col-md-6">
 										<label for="bedrooms" class="form-label">Number of Bedrooms</label>
 										<input type="number" class="form-control" id="bedrooms"
-											placeholder="Number of bedrooms" min="1" required>
+											placeholder="Number of bedrooms" name="bedrooms" min="1" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<div class="col-md-6">
 										<label for="guests" class="form-label">Maximum Number of Guests</label>
 										<input type="number" class="form-control" id="guests"
-											placeholder="Number of guests" min="1" required>
+											placeholder="Number of guests" name="guests" min="1" max="20" required>
 									</div>
 									<div class="col-md-6">
 										<label for="host" class="form-label">Who's gonna be there?</label>
-										<select class="form-select" id="host" required>
+										<select class="form-select" name="host" id="host" required>
 											<option value="me">Me</option>
 											<option value="my_family">My Family</option>
 											<option value="my_friends">My Friends</option>
@@ -74,10 +92,10 @@
 								<div class="col-md-10">
 									<div class="mb-3">
 										<label for="images" class="form-label">Upload Images</label>
-										<input type="file" class="form-control" id="images" required multiple>
+										<input type="file" class="form-control" id="images" name="images[]" required multiple>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-lg btn-publish">Publish</button>
+								<button type="submit" name="publish" class="btn btn-lg btn-publish">Publish</button>
 							</form>
 						</div>
 					</div>
