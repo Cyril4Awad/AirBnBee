@@ -52,7 +52,7 @@ if(isset($_POST['submit'])){
             echo
             "<script>
                 alert('Successfully Added');
-                document.location.href = 'data.php';
+               
                 </script>";
 
         }
