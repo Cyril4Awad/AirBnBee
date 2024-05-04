@@ -1,76 +1,83 @@
 <?php
 session_start();
-$message = "";
-
-include("hosting.html");
 
 $db_server = "localhost";
 $db_user = "root";
 $db_pass = "";
 $db_name = "airbnbee";
-$conn = "";
+$conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 
-$conn = mysqli_connect(
-    $db_server,
-    $db_user,
-    $db_pass,
-    $db_name
-);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['publish'])) {
-        $title = $_POST['title'];
-        $description = $_POST['description'];
-        $type = $_POST['type'];
-        $size = $_POST['size'];
-        $price = $_POST['price'];
-        $bedrooms = $_POST['bedrooms'];
-        $check_in_host = $_POST['host'];
-        $guests = $_POST['guests'];
-        $country = $_POST['country'];
-        $zip = $_POST['zip'];
-        $city = $_POST['city'];
-        $street = $_POST['street'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $type = $_POST['type'];
+    $size = $_POST['size'];
+    $price = $_POST['price'];
+    $bedrooms = $_POST['bedrooms'];
+    $check_in_host = $_POST['host'];
+    $guests = $_POST['guests'];
+    $country = $_POST['country'];
+    $zip = $_POST['zip'];
+    $city = $_POST['city'];
+    $street = $_POST['street'];
 
-        // Process file upload
-        if ($_FILES['image']['error'] === 4) {
-            echo "<script> alert('Image does not exist'); </script>";
-        } else {
-            $fileName = $_FILES['image']['name'];
-            $fileSize = $_FILES['image']['size'];
-            $tmpName = $_FILES['image']['tmp_name'];
+    // Prepare and bind SQL statement
+    $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ssssssiss", $title, $description, $type, $size, $check_in_host, $price, $bedrooms, $guests, $uploadPath);
 
+        // File upload handling
+    if (isset($_FILES['images'])) {
+        $fileNames = $_FILES['images']['name'];
+        $fileSizes = $_FILES['images']['size'];
+        $tmpNames = $_FILES['images']['tmp_name'];
+
+        // Create directory if it doesn't exist
+        $uploadDirectory = '../../assets/uploads/';
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
+
+        foreach ($fileNames as $key => $fileName) {
             $validImageExtension = ['jpg', 'jpeg', 'png'];
-            $imageExtension = explode('.', $fileName);
-            $imageExtension = strtolower(end($imageExtension));
+            $imageExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 
             if (!in_array($imageExtension, $validImageExtension)) {
                 echo "<script> alert('Invalid image format'); </script>";
-            } else if ($fileSize > 1000000) {
+                exit; // Stop execution if invalid image format
+            }
+
+            if ($fileSizes[$key] > 1000000) {
                 echo "<script> alert('Image size exceeds limit'); </script>";
-            } else {
-                $newImageName = uniqid() . '.' . $imageExtension;
-                $uploadPath = 'img/' . $newImageName;
+                exit; // Stop execution if image size exceeds limit
+            }
 
-                if (move_uploaded_file($tmpName, $uploadPath)) {
-                    $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path) 
-                            VALUES ('$title', '$description', '$type', '$size', '$check_in_host', '$price', '$bedrooms', '$guests', '$uploadPath')";
+            $newImageName = uniqid() . '.' . $imageExtension;
+            $uploadPath = $uploadDirectory . $newImageName;
 
-                    $sql_address = "INSERT INTO address (country, zip_code, city, street_number) 
-                                    VALUES ('$country', '$zip', '$city', '$street')";
-
-                    if (mysqli_query($conn, $sql) && mysqli_query($conn, $sql_address)) {
-                        echo "<script> alert('Successfully added'); </script>";
-                        echo "<script> document.location.href = 'data.php'; </script>";
-                    } else {
-                        echo "<script> alert('Error adding record: " . mysqli_error($conn) . "'); </script>";
-                    }
-                } else {
-                    echo "<script> alert('Failed to upload image'); </script>";
-                }
+            if (!move_uploaded_file($tmpNames[$key], $uploadPath)) {
+                echo "<script> alert('Failed to upload image'); </script>";
+                exit; // Stop execution if failed to upload image
             }
         }
     }
-    mysqli_close($conn);
+    // Execute the prepared statement outside the loop
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script> alert('Successfully added'); </script>";
+        echo "<script> document.location.href = 'data.php'; </script>";
+    } else {
+        echo "<script> alert('Error adding record: " . mysqli_error($conn) . "'); </script>";
+    }
+
+    // Close statement
+    mysqli_stmt_close($stmt);
 }
+
+// Close connection
+mysqli_close($conn);
 ?>

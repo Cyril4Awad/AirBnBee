@@ -14,6 +14,11 @@
     <!-- BootStrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    
+    <!-- Boot Strap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- Bootstrap imgages-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
@@ -35,17 +40,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages/Home Page/homepage.html">Home</a>
+                        <a class="nav-link" href="../Home Page/main.php">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages/Create Listing/hosting.html">Host Your Ad</a>
+                        <a class="nav-link" href="../Create Listing/hosting.html">Host Your Ad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" >Booking</a>
+                        <a class="nav-link active" href="#">Booking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages/about us page/aboutus.html">About Us</a>
+                        <a class="nav-link" href="../about us page/aboutus.html">About Us</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -106,27 +111,29 @@
                 <p>Rating , Reviews</p>
                 <hr>
                 <h1>Details About the Host</h1>
-                   <h1> Contact the Host</h1>
-                   <hr>
+                <h1> Contact the Host</h1>
+                <hr>
                 <p>about this place</p>
                 <h1>CALENDER</h1>
                 <hr>
-                <iframe class="mapstyle" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.2197871382576!2dYOUR_LONGITUDE!3dYOUR_LATITUDE!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xYOUR_LATITUDE%2BYOUR_LONGITUDE!2sYour%20Location!5e0!3m2!1sen!2sus!4v1649167134342!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe class="mapstyle"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.2197871382576!2dYOUR_LONGITUDE!3dYOUR_LATITUDE!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xYOUR_LATITUDE%2BYOUR_LONGITUDE!2sYour%20Location!5e0!3m2!1sen!2sus!4v1649167134342!5m2!1sen!2sus"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
             </div>
 
             <div class="sticky-container">
                 <h1> $/Night</h1>
                 <form class="reservation-form">
-                   <div><b> 
-                        <div class="checkin">
-                            <label for="check-in">CHECK-IN</label><br>
-                            <input type="date" id="check-in" name="check-in" value="2024-08-17">
-                        </div>
-                        <div class="checkout">
-                            <label for="check-out">CHECKOUT</label><br>
-                            <input type="date" id="check-out" name="check-out" value="2024-08-22">
-                        </div>
+                    <div><b>
+                            <div class="checkin">
+                                <label for="check-in">CHECK-IN</label><br>
+                                <input type="date" id="check-in" name="check-in" value="2024-08-17">
+                            </div>
+                            <div class="checkout">
+                                <label for="check-out">CHECKOUT</label><br>
+                                <input type="date" id="check-out" name="check-out" value="2024-08-22">
+                            </div>
                     </div>
                     <div class="guest">
                         <label for="guest">GUESTS</label>
@@ -136,21 +143,22 @@
                             <option style="float: left;">3guests</option>
                             <option style="float: left;">4guests</option>
                         </select>
-                    </b></div>
+                        </b>
+                    </div>
                 </form>
-                
+
                 <button class="button" type="submit"><b>Reserve</b></button>
-                
+
                 <p>You won't be charged yet</p>
                 <div class="prices">
-                <p>$price x nbr nights <span style="float : right;">$: 0 </span> </p>
-                <p>Service fees <span style="float : right;">$: 0 </span></p> 
-                <hr>
-                <p><b>Total<span style="float : right;">$: 0 </span></b></p>
+                    <p>$price x nbr nights <span style="float : right;">$: 0 </span> </p>
+                    <p>Service fees <span style="float : right;">$: 0 </span></p>
+                    <hr>
+                    <p><b>Total<span style="float : right;">$: 0 </span></b></p>
                 </div>
 
             </div>
-            
-        </body>
+
+</body>
 
 </html>
