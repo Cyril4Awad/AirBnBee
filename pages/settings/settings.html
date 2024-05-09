@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Airbnb Admin</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <header>
+        <h1>Settings</h1>
+        <nav>
+            <ul>
+                <li><a href="../admin page/adminpage.html">Dashboard</a></li>
+                <li><a href="#">Users</a></li>
+                <li><a href="../Listing page/Listingpage.html">Listings</a></li>
+                <li><a href="#">Bookings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>General Settings</h2>
+            <form>
+                <label for="siteName">Site Name:</label>
+                <input type="text" id="siteName" name="siteName" placeholder="Enter site name">
+
+                <label for="timezone">Timezone:</label>
+                <select id="timezone" name="timezone">
+                    <option value="gmt">GMT</option>
+                    <option value="est">EST</option>
+                    <option value="pst">PST</option>
+                    <!-- Add more timezone options as needed -->
+                </select>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Email Settings</h2>
+            <form>
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="Enter email address">
+
+                <label for="smtp">SMTP Server:</label>
+                <input type="text" id="smtp" name="smtp" placeholder="Enter SMTP server address">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Airbnb. All rights reserved.</p>
+    </footer>
+</body>
+</html>
