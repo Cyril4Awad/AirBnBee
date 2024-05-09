@@ -24,6 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $zip = $_POST['zip'];
     $city = $_POST['city'];
     $street = $_POST['street'];
+    
+    
 
     // Prepare and bind SQL statement
     $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path) 
@@ -37,8 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
         $fileSizes = $_FILES['images']['size'];
         $tmpNames = $_FILES['images']['tmp_name'];
 
-        // Create directory if it doesn't exist
+        // Get the current number of listings in the upload directory
         $uploadDirectory = '../../assets/uploads/';
+        $listingCount = count(glob($uploadDirectory . 'upload*'));
+
+        // Increment the listing count
+        $newListingCount = $listingCount + 1;
+
+        // Create the directory for the new listing
+        $uploadDirectory = $uploadDirectory . 'upload' . $newListingCount . '/';
+
         if (!file_exists($uploadDirectory)) {
             mkdir($uploadDirectory, 0777, true);
         }
@@ -540,3 +550,8 @@ mysqli_close($conn);
 </body>
 
 </html>
+
+<?php
+
+
+?>

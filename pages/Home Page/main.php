@@ -53,7 +53,7 @@ session_start();
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="../Create Listing/hosting.php" >Host Your Ad</a>
+                        <a class="nav-link" href="../Create Listing/hosting.php">Host Your Ad</a>
                     </li>
 
                     <li class="nav-item">
@@ -71,11 +71,11 @@ session_start();
                             <li class="nav-item dropdown">
 
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="<?php
-                                    // Apply inline styles based on the condition
-                                        if (isset($_SESSION['firstName'])) {
-                                            echo 'width: 50px; height: 50px; margin-right: 50px; border-radius: 50%; border: 1px solid black;';
-                                             }
-                                                ?>">
+                                                                                                                                                                                                                            // Apply inline styles based on the condition
+                                                                                                                                                                                                                            if (isset($_SESSION['firstName'])) {
+                                                                                                                                                                                                                                echo 'width: 50px; height: 50px; margin-right: 50px; border-radius: 50%; border: 1px solid black;';
+                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                            ?>">
                                     <?php
                                     // Display the first letter of the user's first name
                                     if (isset($_SESSION['firstName'])) {
@@ -113,142 +113,168 @@ session_start();
                 <h2>Featured Listings</h2>
 
                 <?php
-                // Directory where images are stored
+
+
+
+
+
+
+                // Get the current number of listings in the upload directory
                 $directory = "../../assets/uploads/";
-
-                // Fetching images from the directory
-                $images = glob($directory . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
-
-                // Divide images into sets of five
-                $imageSets = array_chunk($images, 5);
+                $uploadDirectories = glob($directory . 'upload*', GLOB_ONLYDIR);
 
                 // Counter for carousel ID
                 $carouselID = 1;
 
-                // Iterating through each image set to display in separate carousels
-                foreach ($imageSets as $imageSet) {
-                ?>
-                    <a href="../Listing page/Listingpage.html">
-                        <div class="listing">
-                            <div id="Listing<?php echo $carouselID; ?>Carousel" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                    <?php
-                                    // Generate carousel indicators
-                                    for ($i = 0; $i < count($imageSet); $i++) {
-                                        $active = ($i === 0) ? 'active' : '';
-                                    ?>
-                                        <li data-target="#Listing<?php echo $carouselID; ?>Carousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $active; ?>"></li>
-                                    <?php } ?>
-                                </ol>
+                // Iterating through each upload directory
+                foreach ($uploadDirectories as $uploadDir) {
+                    // Fetching images from the directory
+                    $images = glob($uploadDir . "/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
 
-                                <div class="carousel-inner">
-                                    <?php
-                                    // Iterating through each image in the set to display in the carousel
-                                    foreach ($imageSet as $key => $image) {
-                                        $active = ($key === 0) ? 'active' : '';
-                                    ?>
-                                        <div class="item <?php echo $active; ?>">
-                                            <img src="<?php echo $image; ?>" alt="New york">
-                                        </div>
-                                    <?php } ?>
+                    // Divide images into sets of five
+                    $imageSets = array_chunk($images, 5);
+
+
+
+
+
+                    // Iterating through each image set to display in separate carousels
+                    foreach ($imageSets as $imageSet) {
+                ?>
+                        <a href="../Listing page/Listingpage.html">
+                            <div class="listing">
+                                <div id="Listing<?php echo $carouselID; ?>Carousel" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        <?php
+                                        // Generate carousel indicators
+                                        for ($i = 0; $i < count($imageSet); $i++) {
+                                            $active = ($i === 0) ? 'active' : '';
+                                        ?>
+                                            <li data-target="#Listing<?php echo $carouselID; ?>Carousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $active; ?>"></li>
+                                        <?php } ?>
+                                    </ol>
+
+                                    <div class="carousel-inner">
+                                        <?php
+                                        // Iterating through each image in the set to display in the carousel
+                                        foreach ($imageSet as $key => $image) {
+                                            $active = ($key === 0) ? 'active' : '';
+                                        ?>
+                                            <div class="item <?php echo $active; ?>">
+                                                <img src="<?php echo $image; ?>" alt="New york">
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+
+                                    <!-- Left and right controls -->
+                                    <a class="left carousel-control" href="#Listing<?php echo $carouselID; ?>Carousel" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+
+                                    <a class="right carousel-control" href="#Listing<?php echo $carouselID; ?>Carousel" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+
+                                    <!-- Favorite Icon -->
+                                    <a class="carousel-favorite">
+                                        <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                                        <span class="sr-only">Favorite</span>
+                                    </a>
                                 </div>
 
-                                <!-- Left and right controls -->
-                                <a class="left carousel-control" href="#Listing<?php echo $carouselID; ?>Carousel" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
+                                <?php 
+                                
+                                // Check if session variables exist and are set
+                                if (isset($_SESSION['title']) && isset($_SESSION['price'])) {
+                                    // Retrieve the title and price from session variables
+                                    $title = $_SESSION['title'];
+                                    $price = $_SESSION['price'];
 
-                                <a class="right carousel-control" href="#Listing<?php echo $carouselID; ?>Carousel" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-
-                                <!-- Favorite Icon -->
-                                <a class="carousel-favorite">
-                                    <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-                                    <span class="sr-only">Favorite</span>
-                                </a>
+                                    // Output the title and price in your listings
+                                    echo "<h3>$title</h3>";
+                                    echo "<span>$$price/night</span>";
+                                }
+                                ?>
+                                <p>1,013 Kilometers away <br> Apr 14-19</p>
+                                <span> $100/night</span>
                             </div>
-
-                            <h3>Listing <?php echo $carouselID; ?></h3>
-                            <p>1,013 Kilometers away <br> Apr 14-19</p>
-                            <span>$100/night</span>
-                        </div>
-                    </a>
+                        </a>
                 <?php
-                    $carouselID++; // Increment carousel ID
+                        $carouselID++; // Increment carousel ID
+                    }
                 }
                 ?>
-            
-       
 
 
 
 
 
 
-       
 
-        <!-- beginning of the listing -->
-        <div class="listing">
-            <a href="#">
-                <div id="Listing5Carousel" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#Listing5Carousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#Listing5Carousel" data-slide-to="1"></li>
-                        <li data-target="#Listing5Carousel" data-slide-to="2"></li>
-                    </ol>
 
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="../../assets/images/Listing 5/Image 17.jpg" alt="Los Angeles">
+
+
+                <!-- beginning of the listing -->
+                <div class="listing">
+                    <a href="#">
+                        <div id="Listing5Carousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#Listing5Carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#Listing5Carousel" data-slide-to="1"></li>
+                                <li data-target="#Listing5Carousel" data-slide-to="2"></li>
+                            </ol>
+
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img src="../../assets/images/Listing 5/Image 17.jpg" alt="Los Angeles">
+                                </div>
+
+                                <div class="item">
+                                    <img src="../../assets/images/Listing 5/Image 18.jpg" alt="Chicago">
+                                </div>
+
+                                <div class="item">
+                                    <img src="../../assets/images/Listing 5/Image 19.jpg" alt="New york">
+                                </div>
+                            </div>
+
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#Listing5Carousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+
+                            <a class="right carousel-control" href="#Listing5Carousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+
+                            <!-- Favorite Icon -->
+                            <a class="carousel-favorite">
+                                <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
+                                <span class="sr-only">Favorite</span>
+                            </a>
+
                         </div>
 
-                        <div class="item">
-                            <img src="../../assets/images/Listing 5/Image 18.jpg" alt="Chicago">
-                        </div>
-
-                        <div class="item">
-                            <img src="../../assets/images/Listing 5/Image 19.jpg" alt="New york">
-                        </div>
-                    </div>
-
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#Listing5Carousel" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                        <span class="sr-only">Previous</span>
+                        <h3>Listing 5</h3>
+                        <p>276 Kilometers away <br> May 15-20</p>
+                        <span>$180/night</span>
                     </a>
-
-                    <a class="right carousel-control" href="#Listing5Carousel" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-
-                    <!-- Favorite Icon -->
-                    <a class="carousel-favorite">
-                        <span class="glyphicon glyphicon-heart-empty" onclick="changeClass(this)"></span>
-                        <span class="sr-only">Favorite</span>
-                    </a>
-
                 </div>
+                <!-- end of the listing -->
+            </div>
+        </section>
+    </div>
 
-                <h3>Listing 5</h3>
-                <p>276 Kilometers away <br> May 15-20</p>
-                <span>$180/night</span>
-            </a>
+    <!-- Footer -->
+    <footer class="bg-light text-black py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 Airbnbee. All rights reserved.</p>
         </div>
-        <!-- end of the listing -->
-    </div>
-    </section>
-    </div>
-    
-  <!-- Footer -->
-  <footer class="bg-light text-black py-4">
-    <div class="container text-center">
-      <p>&copy; 2024 Airbnbee. All rights reserved.</p>
-    </div>
-  </footer>
+    </footer>
 
 </body>
 
