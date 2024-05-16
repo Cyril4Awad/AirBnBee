@@ -1,12 +1,3 @@
-<!-- Badda choghel ba3ed ma kholset 
-
-    1.Bade ekhod mn l database l info
-    2.Compare l info maa3 l user input
-    3.eza msh mawjoude ello yaamol signup-->
-
-
-
-
 
     <?php
 

@@ -24,15 +24,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $zip = $_POST['zip'];
     $city = $_POST['city'];
     $street = $_POST['street'];
+    $userId = $_SESSION['userId'];
     $_SESSION['title'] = $title;
     $_SESSION['price'] = $price;
+
    
 
     // Prepare and bind SQL statement
-    $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path, user_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssssiss", $title, $description, $type, $size, $check_in_host, $price, $bedrooms, $guests, $uploadPath);
+    mysqli_stmt_bind_param($stmt, "ssssssisss", $title, $description, $type, $size, $check_in_host, $price, $bedrooms, $guests, $uploadPath, $userId);
 
     // File upload handling
     if (isset($_FILES['images'])) {
