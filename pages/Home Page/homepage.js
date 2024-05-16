@@ -1,15 +1,35 @@
 
-function changeClass(spanElement) {
+// JavaScript code to handle favorite icon click
+// JavaScript code to handle favorite icon click
+$(document).ready(function() {
+    $('.carousel-favorite').click(function() {
+        var listingId = $(this).data('listing-id');
+        var spanElement = $(this).find('span');
 
-    // Toggle the classes on the clicked span element
-    if (spanElement.classList.contains("glyphicon-heart-empty")) {
-        spanElement.classList.remove("glyphicon-heart-empty");
-        spanElement.classList.add("glyphicon-heart");
-    } else {
-        spanElement.classList.remove("glyphicon-heart");
-        spanElement.classList.add("glyphicon-heart-empty");
-    }
-}
+        $.ajax({
+            type: 'POST',
+            url: 'update_favorite.php',
+            data: { listingId: listingId },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    if (spanElement.hasClass("glyphicon-heart-empty")) {
+                        spanElement.removeClass("glyphicon-heart-empty").addClass("glyphicon-heart");
+                    } else {
+                        spanElement.removeClass("glyphicon-heart").addClass("glyphicon-heart-empty");
+                    }
+                } else {
+                    alert('Failed to update favorite status: ' + response.message);
+                }
+            },
+            error: function() {
+                alert('An error occurred while processing your request.');
+            }
+        });
+    });
+});
+
+
 
 // Function to update the navigation menu after user login
 function updateNavigationMenu() {
