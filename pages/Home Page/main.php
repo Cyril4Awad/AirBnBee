@@ -88,7 +88,6 @@ session_start();
 
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">My profile</a>
-                                    <a class="dropdown-item" href="update_favorite.php">Favorites</a>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
                                 </div>
@@ -114,88 +113,6 @@ session_start();
                 <h2>Featured Listings</h2>
 
                 <?php
-<<<<<<< HEAD
-
-
-
-
-
-
-                // Get the current number of listings in the upload directory
-                $directory = "../../assets/uploads/";
-                $uploadDirectories = glob($directory . 'upload*', GLOB_ONLYDIR);
-
-                // Counter for carousel ID
-                $carouselID = 1;
-
-                // Iterating through each upload directory
-                foreach ($uploadDirectories as $uploadDir) {
-                    // Fetching images from the directory
-                    $images = glob($uploadDir . "/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
-
-                    // Divide images into sets of five
-                    $imageSets = array_chunk($images, 5);
-
-
-
-
-
-                    // Iterating through each image set to display in separate carousels
-                    foreach ($imageSets as $imageSet) {
-                ?>
-                        <a href="../Listing page/Listingpage.html">
-                            <div class="listing">
-                                <div id="Listing<?php echo $carouselID; ?>Carousel" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        <?php
-                                        // Generate carousel indicators
-                                        for ($i = 0; $i < count($imageSet); $i++) {
-                                            $active = ($i === 0) ? 'active' : '';
-                                        ?>
-                                            <li data-target="#Listing<?php echo $carouselID; ?>Carousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $active; ?>"></li>
-                                        <?php } ?>
-                                    </ol>
-
-                                    <div class="carousel-inner">
-                                        <?php
-                                        // Iterating through each image in the set to display in the carousel
-                                        foreach ($imageSet as $key => $image) {
-                                            $active = ($key === 0) ? 'active' : '';
-                                        ?>
-                                            <div class="item <?php echo $active; ?>">
-                                                <img src="<?php echo $image; ?>" alt="New york">
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-
-                                    <!-- Left and right controls -->
-                                    <a class="left carousel-control" href="#Listing<?php echo $carouselID; ?>Carousel" data-slide="prev">
-                                        <span class="glyphicon glyphicon-chevron-left"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-
-                                    <a class="right carousel-control" href="#Listing<?php echo $carouselID; ?>Carousel" data-slide="next">
-                                        <span class="glyphicon glyphicon-chevron-right"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-
-                                    <!-- Favorite Icon -->
-                                    <a class="carousel-favorite" data-listing-id="<?php echo $listingId; ?>">
-                                        <span class="glyphicon glyphicon-heart-empty"></span>
-                                        <span class="sr-only">Favorite</span>
-                                    </a>
-
-                                </div>
-
-                                <?php
-
-                                // Check if session variables exist and are set
-                                if (isset($_SESSION['title']) && isset($_SESSION['price'])) {
-                                    // Retrieve the title and price from session variables
-                                    $title = $_SESSION['title'];
-                                    $price = $_SESSION['price'];
-
-=======
 
 
 
@@ -275,7 +192,6 @@ session_start();
                                     $title = $_SESSION['title'];
                                     $price = $_SESSION['price'];
 
->>>>>>> 2cce7cc90fde3271211524baa4e97dc8f9a5c897
                                     // Output the title and price in your listings
                                     echo "<h3>$title</h3>";
                                     echo "<span>$$price/night</span>";
