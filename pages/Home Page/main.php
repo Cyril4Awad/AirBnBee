@@ -88,7 +88,8 @@ session_start();
 
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">My profile</a>
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
+                                    <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
                                 </div>
                             </li>
@@ -106,7 +107,6 @@ session_start();
         </div>
 
 
-        <!-- Carousel Listings -->
         <!-- Carousel Listings -->
         <section id="featured-listings">
             <div class="container-fluid">
