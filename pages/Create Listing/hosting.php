@@ -6,7 +6,6 @@ $db_user = "root";
 $db_pass = "";
 $db_name = "airbnbee";
 $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
-
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -28,67 +27,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $_SESSION['title'] = $title;
     $_SESSION['price'] = $price;
 
-   
+    $totalFiles = count($_FILES['fileImg']['name']);
+    $filesArray = array();
 
-    // Prepare and bind SQL statement
-    $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path, user_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssssisss", $title, $description, $type, $size, $check_in_host, $price, $bedrooms, $guests, $uploadPath, $userId);
+  // Get the current number of listings in the upload directory
+$uploadDirectory = '../../assets/uploads/';
+$listingCount = count(glob($uploadDirectory . 'upload*'));
 
-    // File upload handling
-    if (isset($_FILES['images'])) {
-        $fileNames = $_FILES['images']['name'];
-        $fileSizes = $_FILES['images']['size'];
-        $tmpNames = $_FILES['images']['tmp_name'];
+// Increment the listing count
+$newListingCount = $listingCount + 1;
 
-        // Get the current number of listings in the upload directory
-        $uploadDirectory = '../../assets/uploads/';
-        $listingCount = count(glob($uploadDirectory . 'upload*'));
+// Create the directory for the new listing
+$uploadDirectory = $uploadDirectory . 'upload' . $newListingCount . '/';
 
-        // Increment the listing count
-        $newListingCount = $listingCount + 1;
+// Create the directory if it doesn't exist
+if (!file_exists($uploadDirectory)) {
+    mkdir($uploadDirectory, 0777, true);
+}
 
-        // Create the directory for the new listing
-        $uploadDirectory = $uploadDirectory . 'upload' . $newListingCount . '/';
+// Move uploaded files to the new directory
+for ($i = 0; $i < $totalFiles; $i++) {
+    $imageName = $_FILES["fileImg"]["name"][$i];
+    $tmpName = $_FILES["fileImg"]["tmp_name"][$i];
 
-        if (!file_exists($uploadDirectory)) {
-            mkdir($uploadDirectory, 0777, true);
-        }
+    $imageExtension = explode('.', $imageName);
+    $imageExtension = strtolower(end($imageExtension));
 
-        foreach ($fileNames as $key => $fileName) {
-            $validImageExtension = ['jpg', 'jpeg', 'png'];
-            $imageExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    $newImageName = uniqid() . '.' . $imageExtension;
+    $filesArray[] = $newImageName;
 
-            if (!in_array($imageExtension, $validImageExtension)) {
-                echo "<script> alert('Invalid image format'); </script>";
-                exit; // Stop execution if invalid image format
-            }
+    $destination = $uploadDirectory . $newImageName;
+    move_uploaded_file($tmpName, $destination);
+}
 
-            if ($fileSizes[$key] > 1000000) {
-                echo "<script> alert('Image size exceeds limit'); </script>";
-                exit; // Stop execution if image size exceeds limit
-            }
+// Encode the file names array to store in the database
+$filesArray = json_encode($filesArray);
 
-            $newImageName = uniqid() . '.' . $imageExtension;
-            $uploadPath = $uploadDirectory . $newImageName;
+// Insert data into the database
+$query = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path, user_id) VALUES('$title', '$description', '$type', '$size', '$check_in_host', '$price', '$bedrooms', '$guests', '$filesArray', '$userId')";
+mysqli_query($conn, $query);
 
-            if (!move_uploaded_file($tmpNames[$key], $uploadPath)) {
-                echo "<script> alert('Failed to upload image'); </script>";
-                exit; // Stop execution if failed to upload image
-            }
-        }
-    }
-    // Execute the prepared statement outside the loop
-    if (mysqli_stmt_execute($stmt)) {
-        echo "<script> alert('Successfully added'); </script>";
-        echo "<script> document.location.href = '../home page/main.php'; </script>";
-    } else {
-        echo "<script> alert('Error adding record: " . mysqli_error($conn) . "'); </script>";
-    }
 
-    // Close statement
-    mysqli_stmt_close($stmt);
+  echo
+  "
+  <script>
+  alert('Successfully Added');
+  </script>
+  ";
+  echo "<script> document.location.href = '../home page/main.php'; </script>";
 }
 
 // Close connection
@@ -537,7 +523,7 @@ mysqli_close($conn);
                                     <div class="col-md-10">
                                         <div class="mb-3">
                                             <label for="images" class="form-label">Upload Images</label><span style="color: red !important; display: inline; float: none;">*</span>
-                                            <input type="file" class="form-control" id="images" name="images[]" required multiple onchange="validateFileInput(this)">
+                                            <input type="file" name="fileImg[]" accept=".jpg, .jpeg, .png" class="form-control" id="images" required multiple onchange="validateFileInput(this)">
                                         </div>
                                     </div>
                                     <button type="submit" name="publish" class="btn btn-lg btn-publish">Publish</button>
