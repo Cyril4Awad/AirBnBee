@@ -24,9 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $zip = $_POST['zip'];
     $city = $_POST['city'];
     $street = $_POST['street'];
+<<<<<<< HEAD
     $_SESSION['title'] = $title;
     $_SESSION['price'] = $price;
    
+=======
+    
+    
+>>>>>>> 2cce7cc90fde3271211524baa4e97dc8f9a5c897
 
     // Prepare and bind SQL statement
     $sql = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path) 
@@ -487,7 +492,11 @@ mysqli_close($conn);
                                         </div>
                                         <div class="col-md-6">
                                             <label for="zip" class="form-label">ZIP/Postal Code</label><span style="color: red !important; display: inline; float: none;">*</span>
+<<<<<<< HEAD
                                             <input type="number" class="form-control" id="zip" placeholder="Enter the ZIP/Postal Code" name="zip" min="0" required>
+=======
+                                            <input type="number" class="form-control" id="zip" placeholder="Enter the ZIP/Postal Code" name="zip" min="50" required>
+>>>>>>> 2cce7cc90fde3271211524baa4e97dc8f9a5c897
                                         </div>
                                     </div>
                                     <div class="row mb-3">
