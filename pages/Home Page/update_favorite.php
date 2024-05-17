@@ -1,45 +1,65 @@
 <?php
+// Start or resume a session
 session_start();
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "airbnbee";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // Check if the user is logged in
 if (!isset($_SESSION['userId'])) {
-    // User is not logged in, return an error response
-    echo json_encode(array('success' => false, 'message' => 'User not logged in.'));
+    // Redirect or handle unauthorized access
+    header("Location: login.php"); // Redirect to login page or another appropriate page
     exit();
 }
 
-// Check if the listing ID is provided in the POST request
-if (!isset($_POST['listingId'])) {
-    // Listing ID is missing, return an error response
-    echo json_encode(array('success' => false, 'message' => 'Listing ID is missing.'));
-    exit();
-}
+// Get the user_id from the session
+$user_id = $_SESSION['userId'];
 
-// Sanitize and validate the listing ID
-$listingId = filter_var($_POST['listingId'], FILTER_VALIDATE_INT);
-if ($listingId === false || $listingId <= 0) {
-    // Invalid listing ID, return an error response
-    echo json_encode(array('success' => false, 'message' => 'Invalid listing ID.'));
-    exit();
-}
+// Check if the ad_id is set in the POST request
+if (isset($_POST['ad_id'])) {
+    // Get the ad_id from the POST request
+    $ad_id = $_POST['ad_id'];
 
-// Connect to the database
-include 'db_connection.php';
+    // Check if this listing is already a favorite
+    $check_sql = "SELECT * FROM favorites WHERE user_id = ? AND ad_id = ?";
+    $stmt = $conn->prepare($check_sql);
+    $stmt->bind_param("ii", $user_id, $ad_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Prepare the SQL statement to toggle the favorite status
-$sql = "INSERT INTO favorites (user_id, listing_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE user_id = user_id, listing_id = VALUES(listing_id)";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "ii", $_SESSION['user_id'], $listingId);
+    if ($result->num_rows > 0) {
+        // Listing is already a favorite, remove it
+        $delete_sql = "DELETE FROM favorites WHERE user_id = ? AND ad_id = ?";
+        $delete_stmt = $conn->prepare($delete_sql);
+        $delete_stmt->bind_param("ii", $user_id, $ad_id);
+        $delete_stmt->execute();
+        $delete_stmt->close();
+        echo "<script>alert('Removed from your favorites successfully!'); window.location.href='../favorites/favorites.php';</script>";
+    } else {
+        // Listing is not a favorite, add it
+        $insert_sql = "INSERT INTO favorites (user_id, ad_id) VALUES (?, ?)";
+        $insert_stmt = $conn->prepare($insert_sql);
+        $insert_stmt->bind_param("ii", $user_id, $ad_id);
+        $insert_stmt->execute();
+        $insert_stmt->close();
+        echo "<script>alert('Added to your favorites successfully!'); window.location.href='main.php';</script>";
+    }
 
-// Execute the SQL statement
-if (mysqli_stmt_execute($stmt)) {
-    // Database update successful, return a success response
-    echo json_encode(array('success' => true));
+
+    $stmt->close();
+    mysqli_close($conn);
+
 } else {
-    // Database update failed, return an error response
-    echo json_encode(array('success' => false, 'message' => 'Database update failed.'));
+    echo "Error: ad_id not provided!";
 }
-
-// Close the database connection
-mysqli_close($conn);
 ?>

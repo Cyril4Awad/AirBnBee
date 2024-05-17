@@ -25,7 +25,7 @@ if (!isset($_SESSION['userId'])) {
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the listing ID from the form data
-    $listingId = $_POST['listing_id'];
+    $listingId = $_POST['ad_id'];
 
     // Query to delete the listing from the database
     $sql = "DELETE FROM listing WHERE ad_id = $listingId";

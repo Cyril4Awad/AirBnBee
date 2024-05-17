@@ -9,17 +9,13 @@ $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-if (!isset($_SESSION['userId'])) {
-    // Redirect user to login page or handle the situation accordingly
-    header("Location: ../log in/login.php");
-    exit();
-}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Boot Strap CDN link -->
@@ -35,28 +31,17 @@ if (!isset($_SESSION['userId'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Java Script file -->
+    <script src="../Home Page/homepage.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    <!-- Java Script file -->
-    <script>
-        function changeClass(element) {
-            if (element.classList.contains("glyphicon-heart-empty")) {
-                element.classList.remove("glyphicon-heart-empty");
-                element.classList.add("glyphicon-heart");
-            } else {
-                element.classList.remove("glyphicon-heart");
-                element.classList.add("glyphicon-heart-empty");
-            }
-        }
-    </script>
 
     <!-- CSS file -->
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="map.css" />
 
-    <title>AirBnBee</title>
+    <title>Start Up Page</title>
 </head>
 
 <body>
@@ -74,9 +59,11 @@ if (!isset($_SESSION['userId'])) {
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Home</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="../Create Listing/hosting.php">Host Your Ad</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="../about us page/aboutus.html">About Us</a>
                     </li>
@@ -85,29 +72,21 @@ if (!isset($_SESSION['userId'])) {
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
                     <div class="container-fluid">
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="<?php if (isset($_SESSION['firstName'])) {
-                                                                                                                                                                                                                                echo 'width: 50px; height: 50px; margin-right: 50px; border-radius: 50%; border: 1px solid black;';
-                                                                                                                                                                                                                            } ?>">
-                                    <?php if (isset($_SESSION['firstName'])) {
-                                        echo strtoupper(substr($_SESSION['firstName'], 0, 1));
-                                    } ?>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">My profile</a>
-                                    <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
-                                    <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
-                                    <a class="dropdown-item" href="../log out/logout.php">Logout</a>
-                                </div>
+                            <!-- Log In Button -->
+                            <li class="nav-item">
+                                <a class="nav-link login-button" href="../Log In/login.html">Log In</a>
+                            </li>
+                            <!-- Sign Up Button -->
+                            <li class="nav-item">
+                                <a class="nav-link signup-button" href="../Sign Up/sign-up.html">Sign Up</a>
                             </li>
                         </ul>
                     </div>
                 </nav>
-            </div>
-        </div>
+
     </nav>
 
     <div class="map-container">
@@ -135,14 +114,6 @@ if (!isset($_SESSION['userId'])) {
                 echo "<h5 style='margin-top:30px;'>No listings found.</h5>";
             } else {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    // Check if this listing is already a favorite for the user
-                    $fav_sql = "SELECT * FROM favorites WHERE user_id = ? AND ad_id = ?";
-                    $fav_stmt = $conn->prepare($fav_sql);
-                    $fav_stmt->bind_param("ii", $user_id, $ad_id);
-                    $fav_stmt->execute();
-                    $fav_result = $fav_stmt->get_result();
-                    $is_favorite = $fav_result->num_rows > 0;
-                    $fav_stmt->close();
                     $uploadDir = $row['upload_directory'];
                     if (is_dir($uploadDir)) {
                         $images = glob($uploadDir . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
@@ -150,7 +121,6 @@ if (!isset($_SESSION['userId'])) {
 
                         foreach ($imageSets as $imageSet) {
             ?>
-                            <a href="../Listing page/Listingpage.html">
                                 <div class="listing">
                                     <div id="Listing<?php echo $carouselID; ?>Carousel" class="carousel slide" data-ride="carousel">
                                         <ol class="carousel-indicators">
@@ -181,25 +151,13 @@ if (!isset($_SESSION['userId'])) {
                                             <span class="glyphicon glyphicon-chevron-right"></span>
                                             <span class="sr-only">Next</span>
                                         </a>
-
-                                        <a class="carousel-favorite">
-                                            <form method="post" action="update_favorite.php">
-                                                <button type="submit" style="border: none; background: none; color: inherit;">
-                                                    <input type="hidden" name="ad_id" value="<?php echo $row['ad_id']; ?>">
-                                                    <span class="glyphicon glyphicon-heart-empty" role="button" onclick="changeClass(this)"></span>
-                                                </button>
-                                                <span class="sr-only">Favorite</span>
-
-                                                <span class="sr-only">Favorite</span>
-                                            </form>
-                                        </a>
                                     </div>
 
                                     <h3><?php echo $row['ad_title']; ?></h3>
                                     <span>$<?php echo $row['rent_price']; ?>/night</span>
                                     <p>1,013 Kilometers away <br> Apr 14-19</p>
                                 </div>
-                            </a>
+                            
             <?php
                             $carouselID++;
                         }

@@ -9,6 +9,11 @@ $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+if (!isset($_SESSION['userId'])) {
+    // Redirect user to login page or handle the situation accordingly
+    header("Location: ../log in/login.php");
+    exit();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $title = $_POST['title'];
@@ -30,42 +35,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $totalFiles = count($_FILES['fileImg']['name']);
     $filesArray = array();
 
-  // Get the current number of listings in the upload directory
-$uploadDirectory = '../../assets/uploads/';
-$listingCount = count(glob($uploadDirectory . 'upload*'));
+    // Get the current number of listings in the upload directory
+    $uploadDirectory = '../../assets/uploads/';
+    $listingCount = count(glob($uploadDirectory . 'upload*'));
 
-// Increment the listing count
-$newListingCount = $listingCount + 1;
+    // Increment the listing count
+    $newListingCount = $listingCount + 1;
 
-// Create the directory for the new listing
-$uploadDirectory = $uploadDirectory . 'upload' . $newListingCount . '/';
+    // Create the directory for the new listing
+    $uploadDirectory = $uploadDirectory . 'upload' . $newListingCount . '/';
 
-// Create the directory if it doesn't exist
-if (!file_exists($uploadDirectory)) {
-    mkdir($uploadDirectory, 0777, true);
-}
+    // Create the directory if it doesn't exist
+    if (!file_exists($uploadDirectory)) {
+        mkdir($uploadDirectory, 0777, true);
+    }
 
-// Move uploaded files to the new directory
-for ($i = 0; $i < $totalFiles; $i++) {
-    $imageName = $_FILES["fileImg"]["name"][$i];
-    $tmpName = $_FILES["fileImg"]["tmp_name"][$i];
+    // Move uploaded files to the new directory and store their names
+    for ($i = 0; $i < $totalFiles; $i++) {
+        $imageName = $_FILES["fileImg"]["name"][$i];
+        $tmpName = $_FILES["fileImg"]["tmp_name"][$i];
 
-    $imageExtension = explode('.', $imageName);
-    $imageExtension = strtolower(end($imageExtension));
+        $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
+        $newImageName = uniqid() . '.' . $imageExtension;
+        $filesArray[] = $newImageName;
 
-    $newImageName = uniqid() . '.' . $imageExtension;
-    $filesArray[] = $newImageName;
+        $destination = $uploadDirectory . $newImageName;
+        move_uploaded_file($tmpName, $destination);
+    }
 
-    $destination = $uploadDirectory . $newImageName;
-    move_uploaded_file($tmpName, $destination);
-}
+    // Encode the file names array to store in the database
+    $filesArray = json_encode($filesArray);
 
-// Encode the file names array to store in the database
-$filesArray = json_encode($filesArray);
-
-// Insert data into the database
-$query = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path, user_id) VALUES('$title', '$description', '$type', '$size', '$check_in_host', '$price', '$bedrooms', '$guests', '$filesArray', '$userId')";
-mysqli_query($conn, $query);
+    // Insert data into the database with the upload directory path
+    $query = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path, upload_directory, user_id) VALUES('$title', '$description', '$type', '$size', '$check_in_host', '$price', '$bedrooms', '$guests', '$filesArray', '$uploadDirectory', '$userId')";
+    mysqli_query($conn, $query);
 
 
   echo
@@ -194,7 +197,7 @@ mysqli_close($conn);
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label><span style="color: red !important; display: inline; float: none;">*</span>
-                                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Describe your place"></textarea>
+                                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Describe your place" maxlength="300"></textarea>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">

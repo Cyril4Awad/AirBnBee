@@ -34,11 +34,9 @@ $conn = "";
     
             if (mysqli_num_rows($result) > 0) {
                 // Email already exists
-                echo "Email already exists in the database.";
+                echo "<script>alert('Email already exists in the database.')</script>";
             } else {
-                // Email doesn't exist, proceed with insertion
-                $hash = password_hash($password, PASSWORD_DEFAULT);
-    
+                // Email doesn't exist, proceed with insertion    
                 $sql = "INSERT INTO user (first_name, last_name, password, email)
                     VALUES ('$firstName','$lastName', '$password', '$email') ";
     
