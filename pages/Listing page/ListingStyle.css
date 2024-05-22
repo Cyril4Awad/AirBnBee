@@ -5,6 +5,43 @@
     margin-left: 0px;
 }
 
+.star {
+    color: black; /* Change color as needed */
+    font-size: 24px; /* Adjust size as needed */
+}
+
+ /* Custom CSS for reviews */
+ .review {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.review .reviewer {
+    font-weight: bold;
+}
+.review .date {
+    color: #777;
+}
+.review .rating {
+    color: gold;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    content: "\2605";
+    position: absolute;
+    color: gold;
+}
+
 /* Custom style for Log In and Sign Up buttons */
 .navbar-nav .nav-item .nav-link.login-button,
 .navbar-nav .nav-item .nav-link.signup-button {
