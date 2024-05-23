@@ -1,0 +1,316 @@
+<?php
+session_start();
+
+$db_server = "localhost";
+$db_user = "root";
+$db_pass = "";
+$db_name = "airbnbee";
+$conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+if (!isset($_SESSION['userId'])) {
+    // Redirect user to login page or handle the situation accordingly
+    header("Location: ../log in/login.html");
+    exit();
+}
+?>
+<?php
+
+// Get the listing ID from the query parameter
+$ad_id = isset($_GET['ad_id']) ? intval($_GET['ad_id']) : 1; // Default to 1 if no ID is provided
+
+// Prepare the SQL statement to fetch the listing details and user details in one go
+$sql = "SELECT l.*, u.first_name, u.last_name, u.email, u.phone_number 
+        FROM listing l 
+        INNER JOIN user u ON l.user_id = u.user_id 
+        WHERE l.ad_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $ad_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check for errors
+if (!$result) {
+    echo "Error: " . $conn->error;
+    exit;
+}
+
+// Check if the listing exists
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $uploadDir = $row['upload_directory'];
+    $file_paths = json_decode($row['file_path'], true); // Decode the JSON array
+    $fName = $row['first_name'];
+    $lName = $row['last_name'];
+    $email = $row['email'];
+    $phone_number = $row['phone_number'];
+} else {
+    echo "Listing not found!";
+    exit;
+}
+$stmt->close();
+// Query to count the number of reviews for this listing
+$review_sql = "SELECT COUNT(*) as review_count FROM reviews WHERE ad_id = ?";
+$review_stmt = $conn->prepare($review_sql);
+$review_stmt->bind_param("i", $ad_id);
+$review_stmt->execute();
+$review_result = $review_stmt->get_result();
+$review_count = 0;
+
+if ($review_result->num_rows > 0) {
+    $review_row = $review_result->fetch_assoc();
+    $review_count = $review_row['review_count'];
+}
+$review_stmt->close();
+// Calculate the average rating and count the number of reviews
+$sql_rating = "SELECT AVG(rating) as avg_rating, COUNT(*) as review_count FROM rating WHERE ad_id = ?";
+$stmt_rating = $conn->prepare($sql_rating);
+$stmt_rating->bind_param("i", $ad_id);
+$stmt_rating->execute();
+$result_rating = $stmt_rating->get_result();
+
+if ($result_rating->num_rows > 0) {
+    $rating_row = $result_rating->fetch_assoc();
+    $avg_rating = number_format($rating_row['avg_rating'], 2); // Format to 2 decimal places
+    $rating_count = $rating_row['review_count'];
+} else {
+    $avg_rating = "No ratings yet";
+    $rating_count = 0;
+}
+
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing - Airbnbee</title>
+
+    <!-- CSS file -->
+    <link rel="stylesheet" href="ListingStyle.css" />
+
+    <!-- Js File -->
+    <script src="listing.js"></script>
+    <!-- Bootstrap style -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- BootStrap CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- Boot Strap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap imgages-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .submit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tile {
+    margin-bottom: -10px;
+    /* Add margin between each tile */
+}
+
+.img {
+    padding: 5%;
+}
+
+.img-style {
+    border-radius: 25px 0 0 25px;
+    padding: 5px;
+    width: 490.69px;
+    height: 330.45px;
+}
+
+.img-style1,
+.img-style3 {
+    border-radius: 0%;
+    padding: 5px;
+    width: 245.34px;
+    height: 166.89px;
+}
+
+.img-style2 {
+    border-radius: 0 25px 0 0;
+    padding: 5px;
+    width: 245.34px;
+    height: 166.89px;
+}
+
+.img-style4 {
+    border-radius: 0 0 25px 0;
+    padding: 5px;
+    width: 245.34px;
+    height: 166.89px;
+}
+
+    </style>
+        
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../../assets/images/AirBnBee logo.png" alt="Your Logo" class="logo_img">
+                Airbnbee
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../home page/main.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Create Listing/hosting.php">Host Your Ad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
+                    </li>
+                </ul>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="<?php if (isset($_SESSION['firstName'])) {
+                                                                                                                                                                                                                                echo 'width: 50px; height: 50px; margin-right: 50px; border-radius: 50%; border: 1px solid black;';
+                                                                                                                                                                                                                            } ?>">
+                                    <?php if (isset($_SESSION['firstName'])) {
+                                        echo strtoupper(substr($_SESSION['firstName'], 0, 1));
+                                    } ?>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">My profile</a>
+                                    <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
+                                    <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
+                                    <a class="dropdown-item" href="../log out/logout.php">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row no-gutters img">
+        <div class=" col-md-4">
+            <img src="<?php echo $uploadDir . $file_paths[0]; ?>" class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
+        </div>
+
+        <div class=" col-md-4">
+            <div class="row no-gutters">
+                <?php for ($i = 1; $i <= 4; $i++) : ?>
+                    <?php if (isset($file_paths[$i])) : ?>
+                        <div class=" col-md-6">
+                            <img src="<?php echo $uploadDir . $file_paths[$i]; ?>" class="img-fluid img-style<?php echo $i; ?>" alt="Responsive image" style="opacity: 1;">
+                        </div>
+                    <?php endif; ?>
+                <?php endfor; ?>
+            </div>
+        </div>
+
+
+
+        <div class="left-container">
+            <div>
+                <h1><?php echo $row['ad_title']; ?></h1>
+                <hr>
+                <div class="star">&#9733; <?php echo $avg_rating; ?> . <a href="../../pages/Reviews/reviews.html" target="_blank"> <?php echo $review_count; ?> Reviews </a></div>
+                <hr>
+                <h2>Rate this listing</h2>
+                <div class="rating-container mt-2">
+                    <div class="rating">
+                        <span data-value="5">&#x2605;</span>
+                        <span data-value="4">&#x2605;</span>
+                        <span data-value="3">&#x2605;</span>
+                        <span data-value="2">&#x2605;</span>
+                        <span data-value="1">&#x2605;</span>
+                    </div>
+                    <div class="submit-container ml-4">
+                        <button class="btn btn-primary mt-2">Submit</button>
+                    </div>
+                </div>
+
+                <hr>
+                <!-- Description section -->
+                <div class="section-title">Description:</div>
+                <div class="section-content">
+                    <p><?php echo $row['description']; ?></p>
+                </div>
+                <!-- Price section -->
+                <div class="section-title">Price:</div>
+                <div class="section-content">
+                    <p><?php echo $row['rent_price']; ?> per night</p>
+                </div>
+                <!-- Location section -->
+                <div class="section-title">Location:</div>
+                <div class="section-content">
+                    <p>Country: <?php echo $row['country']; ?></p>
+                    <p>City: <?php echo $row['city']; ?></p>
+                    <p>Street Number: <?php echo $row['street_number']; ?></p>
+                </div>
+                <!-- Contact Host section -->
+                <div class="section-title">Contact Host:</div>
+                <div class="section-content">
+                    <p>Name: <?php echo $fName . ' ' . $lName; ?></p>
+                    <p>Email: <?php echo $email; ?></p>
+                    <p>Phone: <?php echo $phone_number; ?></p>
+                </div>
+            </div>
+
+            <div class="sticky-container">
+                <h1>$ / Night</h1>
+                <form class="reservation-form">
+                    <div><b>
+                            <div class="checkin">
+                                <label for="check-in">CHECK-IN</label><br>
+                                <input type="date" id="check-in" name="check-in" value="2024-08-17">
+                            </div>
+                            <div class="checkout">
+                                <label for="check-out">CHECKOUT</label><br>
+                                <input type="date" id="check-out" name="check-out" value="2024-08-22">
+                            </div>
+                    </div>
+                    <div class="guest">
+                        <label for="guest">GUESTS</label>
+                        <select style="width: 90%;border: 0;" id="guest" name="guest">
+                            <option style="float: left;">1guest</option>
+                            <option style="float: left;">2guests</option>
+                            <option style="float: left;">3guests</option>
+                            <option style="float: left;">4guests</option>
+                        </select>
+                        </b>
+                    </div>
+                </form>
+                <button class="button" type="submit"><b>Reserve</b></button>
+                <p>You won't be charged yet</p>
+                <div class="prices">
+
+                </div>
+
+            </div>
+        </div>
+</body>
+
+</html>

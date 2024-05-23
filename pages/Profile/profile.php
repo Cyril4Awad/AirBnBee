@@ -63,7 +63,7 @@ $listing_count = $row_listing_count['listing_count'];
                             <div class="d-flex justify-content-start">
                         
                                 <div class="userData ml-3">
-                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascrip:tvoid(0);">
+                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold; color:red ">
                                         <?php
                                             echo $fName . " " . $lName ;
                                         ?>
@@ -79,7 +79,7 @@ $listing_count = $row_listing_count['listing_count'];
                         <div class="col-12">
                             <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Your Info</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content ml-1" id="myTabContent">

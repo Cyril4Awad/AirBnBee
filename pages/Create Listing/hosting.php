@@ -107,6 +107,10 @@ mysqli_close($conn);
                 alert(`Maximum ${maxFiles} images allowed.`);
                 input.value = ''; // Clear the file input
             }
+            else if(input.files.length < maxFiles){
+                alert(`Minimum ${maxFiles} images allowed.`);
+                input.value = ''; // Clear the file input
+            }
         }
     </script>
 
@@ -136,7 +140,7 @@ mysqli_close($conn);
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="../about us page/aboutus.html">About Us</a>
+                        <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
                     </li>
                 </ul>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">

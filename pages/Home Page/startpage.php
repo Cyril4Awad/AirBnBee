@@ -65,7 +65,7 @@ if (!$conn) {
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="../about us page/aboutus.html">About Us</a>
+                        <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -121,6 +121,7 @@ if (!$conn) {
 
                         foreach ($imageSets as $imageSet) {
             ?>
+                            <a href="../Listing page/Listing.php?ad_id=<?php echo $row['ad_id']; ?>">
                                 <div class="listing">
                                     <div id="Listing<?php echo $carouselID; ?>Carousel" class="carousel slide" data-ride="carousel">
                                         <ol class="carousel-indicators">
@@ -157,14 +158,14 @@ if (!$conn) {
                                     <span>$<?php echo $row['rent_price']; ?>/night</span>
                                     <p>1,013 Kilometers away <br> Apr 14-19</p>
                                 </div>
-                            
-            <?php
+
+                <?php
                             $carouselID++;
                         }
                     }
                 }
             }
-            ?>
+                ?>
         </div>
     </section>
 

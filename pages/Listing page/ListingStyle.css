@@ -5,43 +5,73 @@
     margin-left: 0px;
 }
 
-.star {
-    color: black; /* Change color as needed */
-    font-size: 24px; /* Adjust size as needed */
+body {
+    font-family: Arial, sans-serif;
 }
 
- /* Custom CSS for reviews */
- .review {
-    border: 1px solid #ddd;
-    padding: 20px;
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333; /* Dark text color */
+}
+
+.section-content {
     margin-bottom: 20px;
 }
-.review .reviewer {
-    font-weight: bold;
-}
-.review .date {
-    color: #777;
-}
-.review .rating {
-    color: gold;
+
+.section-content p {
+    margin-bottom: 10px;
+    color: #666; /* Medium-dark text color */
 }
 
+.star {
+    color: #FFD700; /* Golden star color */
+}
+
+.left-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.star, .rating-container {
+    margin-top: 20px;
+}
+.star {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+.star a {
+    margin-left: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+.star a:hover {
+    text-decoration: underline;
+}
+.rating-container {
+    display: flex;
+    align-items: center;
+}
 .rating {
-    unicode-bidi: bidi-override;
-    direction: rtl;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.5rem;
 }
-.rating > span {
-    display: inline-block;
-    position: relative;
-    width: 1.1em;
+.rating span {
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s;
 }
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-    content: "\2605";
-    position: absolute;
+.rating span.active {
     color: gold;
 }
-
+.rating-container h2 {
+    margin-right: 10px;
+}
 /* Custom style for Log In and Sign Up buttons */
 .navbar-nav .nav-item .nav-link.login-button,
 .navbar-nav .nav-item .nav-link.signup-button {
@@ -72,37 +102,6 @@
     /* Darken background color on hover */
 }
 
-#grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 60px repeat(4, 1fr);
-    width: 100vw;
-    height: 590px;
-}
-
-.img {
-    padding: 5%;
-}
-
-.img-style {
-    border-radius: 25px 0 0 25px;
-    padding: 5px;
-}
-
-.img-style1 {
-    border-radius: 0 25px 0px 0;
-    padding: 5px;
-}
-
-.img-style2 {
-    border-radius: 0%;
-    padding: 5px;
-}
-
-.img-style3 {
-    border-radius: 0 0px 25px 0;
-    padding: 5px;
-}
 
 .sticky-container {
     text-align: center;
@@ -172,4 +171,4 @@
 .prices{
     text-align: left;
     padding: 20px;
-}
+} 

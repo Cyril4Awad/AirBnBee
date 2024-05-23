@@ -78,7 +78,7 @@ if (!isset($_SESSION['userId'])) {
                         <a class="nav-link" href="../Create Listing/hosting.php">Host Your Ad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../about us page/aboutus.html">About Us</a>
+                        <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -150,7 +150,8 @@ if (!isset($_SESSION['userId'])) {
 
                         foreach ($imageSets as $imageSet) {
             ?>
-                            <a href="../Listing page/Listingpage.html">
+
+                            <a href="../Listing page/Listing.php?ad_id=<?php echo $row['ad_id']; ?>">
                                 <div class="listing">
                                     <div id="Listing<?php echo $carouselID; ?>Carousel" class="carousel slide" data-ride="carousel">
                                         <ol class="carousel-indicators">
