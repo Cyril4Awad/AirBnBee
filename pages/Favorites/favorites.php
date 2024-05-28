@@ -105,7 +105,7 @@ if (!isset($_SESSION['userId'])) {
                                     } ?>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">My profile</a>
+                                    <a class="dropdown-item" href="../Profile/profile.php">My profile</a>
                                     <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
                                     <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>

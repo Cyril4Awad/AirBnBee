@@ -14,11 +14,59 @@ if (!isset($_SESSION['userId'])) {
     header("Location: ../log in/login.html");
     exit();
 }
+
+// Function to get the user's rating for a listing
+function get_user_rating($ad_id)
+{
+
+    // Check if the user is logged in
+    if (!isset($_SESSION['userId'])) {
+        return null; // User not logged in, so no rating available
+    }
+
+    // Get the user_id from the session
+    $user_id = $_SESSION['userId'];
+
+    // Check if the listing is a favorite for the user
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "airbnbee";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Check if the user has rated the listing
+    $check_sql = "SELECT rating FROM rating WHERE user_id = ? AND ad_id = ?";
+    $stmt = $conn->prepare($check_sql);
+    $stmt->bind_param("ii", $user_id, $ad_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // User has rated the listing, fetch and return their rating
+        $row = $result->fetch_assoc();
+        return $row['rating'];
+    } else {
+        // User has not rated the listing
+        return null;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
+
 <?php
 
 // Get the listing ID from the query parameter
-$ad_id = isset($_GET['ad_id']) ? intval($_GET['ad_id']) : 1; // Default to 1 if no ID is provided
+$ad_id = isset($_GET['ad_id']) ? intval($_GET['ad_id']) : 1;    // Default to 1 if no ID is provided
+$user_id = $_SESSION['userId'];
 
 // Prepare the SQL statement to fetch the listing details and user details in one go
 $sql = "SELECT l.*, u.first_name, u.last_name, u.email, u.phone_number 
@@ -116,51 +164,50 @@ $conn->close();
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .submit-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.tile {
-    margin-bottom: -10px;
-    /* Add margin between each tile */
-}
+        .tile {
+            margin-bottom: -10px;
+            /* Add margin between each tile */
+        }
 
-.img {
-    padding: 5%;
-}
+        .img {
+            padding: 5%;
+        }
 
-.img-style {
-    border-radius: 25px 0 0 25px;
-    padding: 5px;
-    width: 490.69px;
-    height: 330.45px;
-}
+        .img-style {
+            border-radius: 25px 0 0 25px;
+            padding: 5px;
+            width: 490.69px;
+            height: 330.45px;
+        }
 
-.img-style1,
-.img-style3 {
-    border-radius: 0%;
-    padding: 5px;
-    width: 245.34px;
-    height: 166.89px;
-}
+        .img-style1,
+        .img-style3 {
+            border-radius: 0%;
+            padding: 5px;
+            width: 245.34px;
+            height: 166.89px;
+        }
 
-.img-style2 {
-    border-radius: 0 25px 0 0;
-    padding: 5px;
-    width: 245.34px;
-    height: 166.89px;
-}
+        .img-style2 {
+            border-radius: 0 25px 0 0;
+            padding: 5px;
+            width: 245.34px;
+            height: 166.89px;
+        }
 
-.img-style4 {
-    border-radius: 0 0 25px 0;
-    padding: 5px;
-    width: 245.34px;
-    height: 166.89px;
-}
-
+        .img-style4 {
+            border-radius: 0 0 25px 0;
+            padding: 5px;
+            width: 245.34px;
+            height: 166.89px;
+        }
     </style>
-        
+
 </head>
 
 <body>
@@ -200,7 +247,7 @@ $conn->close();
                                     } ?>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">My profile</a>
+                                    <a class="dropdown-item" href="../Profile/profile.php">My profile</a>
                                     <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
                                     <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
@@ -235,24 +282,39 @@ $conn->close();
         <div class="left-container">
             <div>
                 <h1><?php echo $row['ad_title']; ?></h1>
-                <hr>
-                <div class="star">&#9733; <?php echo $avg_rating; ?> . <a href="../../pages/Reviews/reviews.html" target="_blank"> <?php echo $review_count; ?> Reviews </a></div>
-                <hr>
-                <h2>Rate this listing</h2>
-                <div class="rating-container mt-2">
-                    <div class="rating">
-                        <span data-value="5">&#x2605;</span>
-                        <span data-value="4">&#x2605;</span>
-                        <span data-value="3">&#x2605;</span>
-                        <span data-value="2">&#x2605;</span>
-                        <span data-value="1">&#x2605;</span>
-                    </div>
-                    <div class="submit-container ml-4">
-                        <button class="btn btn-primary mt-2">Submit</button>
-                    </div>
+                
+                <div class="star">
+                    &#9733; <?php echo $avg_rating; ?>
+                    <a href="../Reviews/reviews.php?ad_id=<?php echo urlencode($ad_id); ?>">
+                        <?php echo $review_count; ?> Reviews
+                    </a>
                 </div>
+                
+                <h2>Rate this listing</h2>
+                <?php
+                // Get the user's rating for the current listing
+                $user_rating = get_user_rating($row['ad_id']);
+                ?>
+                <form id="ratingForm" method="post" action="../rating/rating.php">
+                    <div class="rating-container mt-2">
+                        <div class="rating">
+                            <?php for ($i = 1; $i <= 5; $i++) { ?>
+                                <span data-value="<?php echo $i; ?>" class="star<?php echo ($user_rating != null && $i <= $user_rating) ? ' active' : ''; ?>" disabled>&#x2605;</span>
+                            <?php } ?>
+                        </div>
+                        <input type="hidden" name="ad_id" value="<?php echo $row['ad_id']; ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                        <div class="submit-container ml-4">
+                            <button class="btn btn-primary mt-2" id="submitRating" <?php echo ($user_rating != null) ? 'disabled' : ''; ?>>Submit</button>
+                        </div>
+                    </div>
+                </form>
 
-                <hr>
+
+
+
+
+                
                 <!-- Description section -->
                 <div class="section-title">Description:</div>
                 <div class="section-content">
@@ -312,5 +374,55 @@ $conn->close();
             </div>
         </div>
 </body>
+
+<script>
+    $(document).ready(function() {
+        // Check if there is a rating stored in the session
+        var storedRating = <?php echo isset($_SESSION['rating']) ? $_SESSION['rating'] : 'null'; ?>;
+
+        // If there is a stored rating, mark the corresponding stars as selected
+        if (storedRating !== null) {
+            $('.star').each(function(index) {
+                if (index < storedRating) {
+                    $(this).addClass('selected');
+                }
+            });
+        }
+
+        // Function to handle star selection
+        $('.star').click(function() {
+            // Remove 'selected' class from all stars
+            $('.star').removeClass('selected');
+            // Add 'selected' class to clicked star and previous stars
+            $(this).addClass('selected');
+            $(this).prevAll().addClass('selected');
+
+            // Update the stored rating in the session
+            var rating = $(this).index() + 1;
+            <?php $_SESSION['rating'] = "' + rating + '"; ?>;
+        });
+
+        // Function to handle form submission
+        $('#ratingForm').submit(function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Count the number of selected stars
+            var rating = $('.star.selected').length;
+
+            // Add the rating value to a hidden input field in the form
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'rating',
+                value: rating
+            }).appendTo('#ratingForm');
+
+            // Update the stored rating in the session
+            <?php $_SESSION['rating'] = "' + rating + '"; ?>;
+
+            // Submit the form
+            this.submit();
+        });
+    });
+</script>
 
 </html>

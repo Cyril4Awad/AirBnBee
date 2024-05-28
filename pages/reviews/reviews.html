@@ -1,55 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Reviews Page</title>
+    <title>Reviews</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- CSS File -->
     <style>
         .review {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            height: 250px;
+            /* Fixed height for consistency */
+            overflow-y: auto;
+            /* Scroll option for overflow text */
         }
+
         .review .reviewer {
-            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 0.2em;
         }
+
         .review .date {
-            color: #777;
+            font-size: 0.9em;
         }
+
         .review .rating {
-            color: #f39c12;
-            font-size: 20px;
+            font-size: 1.2em;
+        }
+
+        .review-text p {
+            margin: 0.5em 0;
+        }
+
+        button {
+            padding: 0.6em 1.2em;
+            font-size: 1.1em;
         }
     </style>
 </head>
+
 <body>
     <div class="container mt-5">
-        <h2>Customer Reviews</h2>
-        <div class="row">
+        <h2 class="text-center mb-4">Customer Reviews</h2>
+        <div class="row mb-4">
             <div class="col-md-6">
-                <div class="review">
-                    <p class="reviewer">John Doe</p>
-                    <p class="date">January 10, 2024</p>
-                    <p class="rating">&#9733; &#9733; &#9733; &#9733; &#9733;</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget ultricies sapien, et venenatis leo.</p>
+                <div class="review p-3 mb-3 border rounded">
+                    <p class="reviewer font-weight-bold">John Doe</p>
+                    <p class="date text-muted">January 10, 2024</p>
+                    <div class="review-text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget ultricies sapien, et
+                            venenatis leo.</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="review">
-                    <p class="reviewer">Jane Smith</p>
-                    <p class="date">February 5, 2024</p>
-                    <p class="rating">&#9733; &#9733; &#9733; &#9733;</p>
-                    <p>Nullam vitae urna vel odio faucibus fermentum.</p>
+                <div class="review p-3 mb-3 border rounded">
+                    <p class="reviewer font-weight-bold">Jane Smith</p>
+                    <p class="date text-muted">February 5, 2024</p>
+                    <div class="review-text">
+                        <p>Nullam vitae urna vel odio faucibus fermentum.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mb-4">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">Add Your Review</button>
+        </div>
+    </div>
+
+    <!-- Modal for adding reviews -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Add Your Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label for="reviewerName">Name</label>
+                            <input type="text" class="form-control" id="reviewerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewDate">Date</label>
+                            <input type="date" class="form-control" id="reviewDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText">Review</label>
+                            <textarea class="form-control" id="reviewText" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add My Review</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

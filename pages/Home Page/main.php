@@ -14,7 +14,33 @@ if (!isset($_SESSION['userId'])) {
     header("Location: ../log in/login.php");
     exit();
 }
+function is_favorite($ad_id)
+{
+    $db_server = "localhost";
+    $db_user = "root";
+    $db_pass = "";
+    $db_name = "airbnbee";
+    $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+
+    $user_id = $_SESSION['userId'];
+    
+    // Check if the ad_id is a favorite for the user
+    $check_sql = "SELECT * FROM favorites WHERE user_id = ? AND ad_id = ?";
+    $stmt = $conn->prepare($check_sql);
+    $stmt->bind_param("ii", $user_id, $ad_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $is_favorite = $result->num_rows > 0;
+
+    $stmt->close();
+    $conn->close();
+
+    return $is_favorite;
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -187,12 +213,11 @@ if (!isset($_SESSION['userId'])) {
                                             <form method="post" action="update_favorite.php">
                                                 <button type="submit" style="border: none; background: none; color: inherit;">
                                                     <input type="hidden" name="ad_id" value="<?php echo $row['ad_id']; ?>">
-                                                    <span class="glyphicon glyphicon-heart-empty" role="button" onclick="changeClass(this)"></span>
+                                                    <span class="glyphicon <?php echo is_favorite($row['ad_id']) ? 'glyphicon-heart' : 'glyphicon-heart-empty'; ?>" role="button" onclick="toggleFavorite(this)"></span>
                                                 </button>
                                                 <span class="sr-only">Favorite</span>
-
-                                                <span class="sr-only">Favorite</span>
                                             </form>
+
                                         </a>
                                     </div>
 
