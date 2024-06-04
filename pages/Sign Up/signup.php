@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
         $country = filter_input(INPUT_POST, "country", FILTER_SANITIZE_SPECIAL_CHARS);
         $phone = filter_input(INPUT_POST, "phone", FILTER_SANITIZE_SPECIAL_CHARS);
+        $userRole = 0;
 
         // Check if email already exists in the database
         $emailCheckQuery = "SELECT * FROM user WHERE email = ?";
@@ -38,9 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Email doesn't exist, proceed with insertion    
-            $sql = "INSERT INTO user (first_name, last_name, country, phone_number, password, email) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO user (first_name, last_name, country, phone_number, password, email, user_role) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssss", $firstName, $lastName, $country, $phone, $hashedPassword, $email);
+            $stmt->bind_param("ssssssi", $firstName, $lastName, $country, $phone, $password, $email, $userRole);
 
             if ($stmt->execute()) {
                 header("Location: ../log in/login.php");

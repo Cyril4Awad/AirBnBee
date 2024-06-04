@@ -127,6 +127,33 @@ if ($result_rating->num_rows > 0) {
     $rating_count = 0;
 }
 
+$sql_guests = "SELECT num_guests FROM listing WHERE ad_id=?";
+$stmt_guests = $conn->prepare($sql_guests);
+$stmt_guests->bind_param("i", $ad_id);
+$stmt_guests->execute();
+$stmt_guests->bind_result($maxGuests);
+$stmt_guests->fetch();
+$stmt_guests->close();
+
+$today = date("Y-m-d");
+$tomorrow = date("Y-m-d", strtotime("+1 day"));
+
+$reservations = [];
+$sql_validateDates = "SELECT check_in, check_out FROM rent WHERE ad_id=?";
+$stmt = $conn->prepare($sql_validateDates);
+if ($stmt) {
+    $stmt->bind_param("i", $ad_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row_validationDates = $result->fetch_assoc()) {
+        $reservations[] = $row_validationDates;
+    }
+    $stmt->close();
+} else {
+    die("Error preparing statement: " . $conn->error);
+}
+
+
 $conn->close();
 ?>
 
@@ -144,25 +171,44 @@ $conn->close();
     <!-- Bootstrap style -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
     <!-- BootStrap CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <!-- Boot Strap script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <!-- Bootstrap imgages-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
-        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    
+    <script>
+        function validateDates() {
+            const checkIn = new Date(document.getElementById('check-in').value);
+            const checkOut = new Date(document.getElementById('check-out').value);
+            const reservations = <?php echo json_encode($reservations); ?>;
+
+            for (let i = 0; i < reservations.length; i++) {
+                const reservedCheckIn = new Date(reservations[i].check_in);
+                const reservedCheckOut = new Date(reservations[i].check_out);
+
+                if ((checkIn >= reservedCheckIn && checkIn <= reservedCheckOut) ||
+                    (checkOut >= reservedCheckIn && checkOut <= reservedCheckOut) ||
+                    (checkIn <= reservedCheckIn && checkOut >= reservedCheckOut)) {
+                    alert("The selected dates overlap with an existing reservation.");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+
 </head>
 
 <body>
@@ -195,7 +241,7 @@ $conn->close();
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="<?php if (isset($_SESSION['firstName'])) {
-                                                                                                                                                                                                                                echo 'width: 50px; height: 50px; margin-right: 50px; border-radius: 50%; border: 1px solid black;';
+                                                                                                                                                                                                                                echo 'width: 50px; height: 50px; margin-right: 70px; border-radius: 50%; border: 1px solid black;';
                                                                                                                                                                                                                             } ?>">
                                     <?php if (isset($_SESSION['firstName'])) {
                                         echo strtoupper(substr($_SESSION['firstName'], 0, 1));
@@ -217,17 +263,22 @@ $conn->close();
 
     <div class="row no-gutters img">
         <div class="tile col-lg-6">
-        <a href="<?php echo $uploadDir . $file_paths[0]; ?>"> 
-            <img src="<?php echo $uploadDir . $file_paths[0]; ?>"
-                    class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
+            <a href="<?php echo $uploadDir . $file_paths[0]; ?>">
+                <img src="<?php echo $uploadDir . $file_paths[0]; ?>" class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
             </a>
-                                </div>
+        </div>
         <div class="tile col-lg-6">
             <div class="row no-gutters">
-                    <?php for ($i = 1; $i <= 4; $i++) : ?>
+                <?php for ($i = 1; $i <= 4; $i++) : ?>
                     <?php if (isset($file_paths[$i])) : ?>
-                <div class="tile col-lg-6">
-                <img src="<?php echo $uploadDir . $file_paths[$i]; ?>" class="img-fluid img-style<?php if ($i % 2 != 0) { echo '2'; } elseif ($i == 2) { echo '1'; } elseif ($i == 4) { echo '3'; } ?>" alt="Responsive image" style="opacity: 1;">
+                        <div class="tile col-lg-6">
+                            <img src="<?php echo $uploadDir . $file_paths[$i]; ?>" class="img-fluid img-style<?php if ($i % 2 != 0) {
+                                                                                                                    echo '2';
+                                                                                                                } elseif ($i == 2) {
+                                                                                                                    echo '1';
+                                                                                                                } elseif ($i == 4) {
+                                                                                                                    echo '3';
+                                                                                                                } ?>" alt="Responsive image" style="opacity: 1;">
 
                         </div>
                     <?php endif; ?>
@@ -240,14 +291,14 @@ $conn->close();
         <div class="left-container">
             <div>
                 <h1><?php echo $row['ad_title']; ?></h1>
-                
+
                 <div class="star">
                     &#9733; <?php echo $avg_rating; ?>
                     <a href="../Reviews/reviews.php?ad_id=<?php echo urlencode($ad_id); ?>">
                         <?php echo $review_count; ?> Reviews
                     </a>
                 </div>
-                
+
                 <h2>Rate this listing</h2>
                 <?php
                 // Get the user's rating for the current listing
@@ -272,7 +323,7 @@ $conn->close();
 
 
 
-                
+
                 <!-- Description section -->
                 <div class="section-title">Description:</div>
                 <div class="section-content">
@@ -301,36 +352,39 @@ $conn->close();
 
             <div class="sticky-container">
                 <h1>$ / Night</h1>
-                <form class="reservation-form">
+                <form class="reservation-form" action="booking.php" method="post" onsubmit="return validateDates()">
                     <div><b>
                             <div class="checkin">
                                 <label for="check-in">CHECK-IN</label><br>
-                                <input type="date" id="check-in" name="check-in" value="2024-08-17">
+                                <input type="date" id="check-in" name="check-in" value=" <?php echo $today ?>">
                             </div>
                             <div class="checkout">
                                 <label for="check-out">CHECKOUT</label><br>
-                                <input type="date" id="check-out" name="check-out" value="2024-08-22">
+                                <input type="date" id="check-out" name="check-out" value="<?php echo $tomorrow ?>">
                             </div>
                     </div>
                     <div class="guest">
                         <label for="guest">GUESTS</label>
                         <select style="width: 90%;border: 0;" id="guest" name="guest">
-                            <option style="float: left;">1guest</option>
-                            <option style="float: left;">2guests</option>
-                            <option style="float: left;">3guests</option>
-                            <option style="float: left;">4guests</option>
+                            <?php
+                            for ($i = 1; $i <= $maxGuests; $i++) {
+                                echo "<option value='$i'>{$i} guest" . ($i > 1 ? 's' : '') . "</option>";
+                            }
+                            ?>
                         </select>
                         </b>
                     </div>
+                    <input type="hidden" name="ad_id" value="<?php echo $ad_id; ?>">
+                    <button class="button" type="submit"><b>Reserve</b></button>
+                    <p>You won't be charged yet</p>
+                    <div class="prices">
+                        <!-- vide -->
+                    </div>
                 </form>
-                <button class="button" type="submit"><b>Reserve</b></button>
-                <p>You won't be charged yet</p>
-                <div class="prices">
-
-                </div>
-
             </div>
+
         </div>
+    </div>
 </body>
 
 <script>
