@@ -141,73 +141,28 @@ $conn->close();
     <!-- CSS file -->
     <link rel="stylesheet" href="ListingStyle.css" />
 
-    <!-- Js File -->
-    <script src="listing.js"></script>
     <!-- Bootstrap style -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- BootStrap CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <!-- Boot Strap script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- Bootstrap imgages-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+        rel="stylesheet" />
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .submit-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
 
-        .tile {
-            margin-bottom: -10px;
-            /* Add margin between each tile */
-        }
-
-        .img {
-            padding: 5%;
-        }
-
-        .img-style {
-            border-radius: 25px 0 0 25px;
-            padding: 5px;
-            width: 490.69px;
-            height: 330.45px;
-        }
-
-        .img-style1,
-        .img-style3 {
-            border-radius: 0%;
-            padding: 5px;
-            width: 245.34px;
-            height: 166.89px;
-        }
-
-        .img-style2 {
-            border-radius: 0 25px 0 0;
-            padding: 5px;
-            width: 245.34px;
-            height: 166.89px;
-        }
-
-        .img-style4 {
-            border-radius: 0 0 25px 0;
-            padding: 5px;
-            width: 245.34px;
-            height: 166.89px;
-        }
-    </style>
-
+    
 </head>
 
 <body>
@@ -261,16 +216,19 @@ $conn->close();
     </nav>
 
     <div class="row no-gutters img">
-        <div class=" col-md-4">
-            <img src="<?php echo $uploadDir . $file_paths[0]; ?>" class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
-        </div>
-
-        <div class=" col-md-4">
+        <div class="tile col-lg-6">
+        <a href="<?php echo $uploadDir . $file_paths[0]; ?>"> 
+            <img src="<?php echo $uploadDir . $file_paths[0]; ?>"
+                    class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
+            </a>
+                                </div>
+        <div class="tile col-lg-6">
             <div class="row no-gutters">
-                <?php for ($i = 1; $i <= 4; $i++) : ?>
+                    <?php for ($i = 1; $i <= 4; $i++) : ?>
                     <?php if (isset($file_paths[$i])) : ?>
-                        <div class=" col-md-6">
-                            <img src="<?php echo $uploadDir . $file_paths[$i]; ?>" class="img-fluid img-style<?php echo $i; ?>" alt="Responsive image" style="opacity: 1;">
+                <div class="tile col-lg-6">
+                <img src="<?php echo $uploadDir . $file_paths[$i]; ?>" class="img-fluid img-style<?php if ($i % 2 != 0) { echo '2'; } elseif ($i == 2) { echo '1'; } elseif ($i == 4) { echo '3'; } ?>" alt="Responsive image" style="opacity: 1;">
+
                         </div>
                     <?php endif; ?>
                 <?php endfor; ?>
