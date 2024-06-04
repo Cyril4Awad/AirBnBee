@@ -77,7 +77,7 @@ if (!isset($_SESSION['userId'])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../home page/main.php">Home</a>
+                        <a class="nav-link" href="<?php echo $_SESSION['userRole'] == 1 ? '../Home Page/admin.php' : '../Home Page/main.php'; ?>">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Favorites</a>

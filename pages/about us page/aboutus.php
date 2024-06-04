@@ -48,7 +48,14 @@ if (!$conn) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo isset($_SESSION['userId']) ? '../Home Page/main.php' : '../Home Page/startpage.php'; ?>">Home</a>
+                        <a class="nav-link" href="<?php if (isset($_SESSION['userId']) && ($_SESSION['userRole'] == 1)) {
+                                                        echo '../Home Page/admin.php';
+                                                    } else if (isset($_SESSION['userId']) && ($_SESSION['userRole'] == 0)) {
+                                                        echo '../Home Page/main.php';
+                                                    } else {
+                                                        echo '../home page/startpage.php';
+                                                    }
+                                                    ?>">Home</a>
 
                     </li>
                     <li class="nav-item active">
