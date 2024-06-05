@@ -135,8 +135,8 @@ $stmt_guests->bind_result($maxGuests);
 $stmt_guests->fetch();
 $stmt_guests->close();
 
-$today = date("Y-m-d");
-$tomorrow = date("Y-m-d", strtotime("+1 day"));
+$today = date("d-m-Y");
+$tomorrow = date("d-m-Y", strtotime("+1 day"));
 
 $reservations = [];
 $sql_validateDates = "SELECT check_in, check_out FROM rent WHERE ad_id=?";
@@ -193,7 +193,22 @@ $conn->close();
             const checkIn = new Date(document.getElementById('check-in').value);
             const checkOut = new Date(document.getElementById('check-out').value);
             const reservations = <?php echo json_encode($reservations); ?>;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
 
+            // Check if the selected dates are in the past
+            if (checkIn < today || checkOut < today) {
+                alert("You cannot select dates that are in the past.");
+                return false;
+            }
+
+            // Check if the check-out date is before the check-in date
+            if (checkOut <= checkIn) {
+                alert("The check-out date cannot be earlier than or the same as the check-in date.");
+                return false;
+            }
+
+            // Check if the selected dates overlap with any existing reservations
             for (let i = 0; i < reservations.length; i++) {
                 const reservedCheckIn = new Date(reservations[i].check_in);
                 const reservedCheckOut = new Date(reservations[i].check_out);
@@ -205,8 +220,38 @@ $conn->close();
                     return false;
                 }
             }
+
             return true;
         }
+
+
+        // Price per night for the listing
+        const pricePerNight = <?php echo $row['rent_price']; ?>;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const checkInInput = document.getElementById('check-in');
+            const checkOutInput = document.getElementById('check-out');
+            const totalPriceElement = document.getElementById('total-price');
+
+            function calculateTotalPrice() {
+                const checkInDate = new Date(checkInInput.value);
+                const checkOutDate = new Date(checkOutInput.value);
+                if (checkInDate && checkOutDate && checkOutDate > checkInDate) {
+                    const timeDifference = checkOutDate - checkInDate;
+                    const daysDifference = timeDifference / (1000 * 3600 * 24);
+                    const totalPrice = daysDifference * pricePerNight;
+                    totalPriceElement.textContent = totalPrice.toFixed(2);
+                } else {
+                    totalPriceElement.textContent = '0';
+                }
+            }
+
+            checkInInput.addEventListener('change', calculateTotalPrice);
+            checkOutInput.addEventListener('change', calculateTotalPrice);
+
+            // Calculate the initial total price based on the default values
+            calculateTotalPrice();
+        });
     </script>
 
 </head>
@@ -376,9 +421,8 @@ $conn->close();
                     </div>
                     <input type="hidden" name="ad_id" value="<?php echo $ad_id; ?>">
                     <button class="button" type="submit"><b>Reserve</b></button>
-                    <p>You won't be charged yet</p>
                     <div class="prices">
-                        <!-- vide -->
+                        <p>Total Price: <span id="total-price">0</span> $</p>
                     </div>
                 </form>
             </div>
