@@ -156,7 +156,6 @@ if (!$conn) {
 
                                     <h3><?php echo $row['ad_title']; ?></h3>
                                     <span>$<?php echo $row['rent_price']; ?>/night</span>
-                                    <p>1,013 Kilometers away <br> Apr 14-19</p>
                                 </div>
 
                 <?php

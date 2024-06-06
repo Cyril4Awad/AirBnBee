@@ -107,7 +107,7 @@ function is_favorite($ad_id)
                         <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../admin page/adminpage.html">Admin Dashboard</a>
+                        <a class="nav-link" href="../admin page/dashboard.php">Admin Dashboard</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -226,7 +226,6 @@ function is_favorite($ad_id)
 
                                     <h3><?php echo $row['ad_title']; ?></h3>
                                     <span>$<?php echo $row['rent_price']; ?>/night</span>
-                                    <p>1,013 Kilometers away <br> Apr 14-19</p>
                                 </div>
                             </a>
             <?php

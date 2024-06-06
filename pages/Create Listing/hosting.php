@@ -14,6 +14,7 @@ if (!isset($_SESSION['userId'])) {
     header("Location: ../log in/login.php");
     exit();
 }
+$userId = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['userId'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $title = $_POST['title'];
@@ -28,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $zip = $_POST['zip'];
     $city = $_POST['city'];
     $street = $_POST['street'];
-    $userId = $_SESSION['userId'];
     $_SESSION['title'] = $title;
     $_SESSION['price'] = $price;
 
@@ -67,17 +67,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $filesArray = json_encode($filesArray);
 
     // Insert data into the database with the upload directory path
-    $query = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, file_path, upload_directory, user_id) VALUES('$title', '$description', '$type', '$size', '$check_in_host', '$price', '$bedrooms', '$guests', '$filesArray', '$uploadDirectory', '$userId')";
+    $query = "INSERT INTO listing (ad_title, description, property_type, size, check_in_host, rent_price, num_bedrooms, num_guests, country, city, street_number, zip_code, file_path, upload_directory, user_id) VALUES('$title', '$description', '$type', '$size', '$check_in_host', '$price', '$bedrooms', '$guests','$country', '$city', '$street', '$zip',  '$filesArray', '$uploadDirectory', '$userId')";
     mysqli_query($conn, $query);
 
 
-  echo
-  "
-  <script>
-  alert('Successfully Added');
-  </script>
+    echo "
+    <script>
+      alert('Successfully Added');
+      document.location.href = '" . ($_SESSION['userRole'] == 1 ? '../Home Page/admin.php' : '../Home Page/main.php') . "';
+    </script>
   ";
-  echo "<script> document.location.href = '../home page/main.php'; </script>";
 }
 
 // Close connection
@@ -106,8 +105,7 @@ mysqli_close($conn);
             if (input.files.length > maxFiles) {
                 alert(`Maximum ${maxFiles} images allowed.`);
                 input.value = ''; // Clear the file input
-            }
-            else if(input.files.length < maxFiles){
+            } else if (input.files.length < maxFiles) {
                 alert(`Minimum ${maxFiles} images allowed.`);
                 input.value = ''; // Clear the file input
             }
