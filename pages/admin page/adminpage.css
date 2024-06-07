@@ -40,7 +40,7 @@ nav ul li {
 
 nav ul li a {
     color: #fff;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 /* Main content styles */
@@ -101,3 +101,35 @@ footer {
     bottom: 0;
     width: 100%;
 }
+.booking-controls {
+    margin-bottom: 20px;
+}
+
+.booking-controls button {
+    margin-right: 10px;
+}
+
+.booking-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.booking-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.booking-item hr {
+    margin: 10px 0;
+}
+
+.cancel-button {
+    background-color: #dc3545 !important;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+

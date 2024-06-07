@@ -14,7 +14,7 @@ if (!isset($_SESSION['userId'])) {
     header("Location: ../log in/login.php");
     exit();
 }
-$userId = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['userId'];
+$userId = $_SESSION['userId'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publish'])) {
     $title = $_POST['title'];

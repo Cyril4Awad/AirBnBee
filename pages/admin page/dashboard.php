@@ -66,6 +66,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteListing'])) {
 }
 $carouselID = 1;
 
+if (isset($_GET['cancel_ad_id'])) {
+    $adId = intval($_GET['cancel_ad_id']);
+
+    // Perform the cancellation operation (delete the booking from the database)
+    $query = "DELETE FROM rent WHERE ad_id = $adId LIMIT 1";
+    if (mysqli_query($conn, $query)) {
+        echo "<script>alert('Booking successfully cancelled.');</script>";
+    } else {
+        echo "<script>alert('Error cancelling booking: " . mysqli_error($conn) . "');</script>";
+    }
+}
+
 
 
 $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
@@ -79,19 +91,21 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Airbnb</title>
     <!-- Include any necessary CSS files -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="adminpage.css">
     <link rel="stylesheet" href="../home page/style.css" />
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../home page/style.css" />
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="../Home Page/homepage.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function cancelBooking(adId) {
+            if (confirm('Are you sure you want to cancel this booking?')) {
+                // Redirect to the same page with a cancel_ad_id parameter
+                window.location.href = '?cancel_ad_id=' + adId;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -101,8 +115,7 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
         <!-- Navigation menu -->
         <nav>
             <ul>
-                <li><a href="../Home Page/admin.php">Home</a></li>
-                <li><a href="#">Users</a></li>
+                <li><a href="../Home Page/admin.php" class="btn btn-danger">Home</a></li>
             </ul>
         </nav>
     </header>
@@ -120,7 +133,7 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
                     <input type="email" name="email" placeholder="Email" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <input type="number" name="phoneNumber" placeholder="Phone Number" required>
-                    <select id="country" name="country" class="form-select" required>
+                    <select id="country" name="country" class="mb-3" required>
                         <option value="" disabled selected>Country</option>
                         <option value="Afghanistan">Afghanistan</option>
                         <option value="Åland Islands">Åland Islands</option>
@@ -400,37 +413,33 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
         </section>
 
         <!-- Listing management section -->
+        <section>
+            <h2>Add listings to Users</h2>
+            <div>
+                <?php
+                // Fetch user data from the database
+                $usersQuery = "SELECT user_id, first_name, last_name FROM user WHERE user_role != 1";
+                $usersResult = mysqli_query($conn, $usersQuery);
+
+                if (mysqli_num_rows($usersResult) > 0) {
+                    while ($userRow = mysqli_fetch_assoc($usersResult)) {
+                        $userId = $userRow['user_id'];
+                        $userName = $userRow['first_name'] . " " . $userRow['last_name'];
+                ?>
+                        <a href="adminhosting.php?user_id=<?php echo htmlspecialchars($userId); ?>" class="mb-3 btn btn-secondary">
+                            <?php echo htmlspecialchars($userName); ?>
+                        </a><br>
+                <?php
+                    }
+                } else {
+                    echo "No users found";
+                }
+                ?>
+
+            </div>
+        </section>
         <section id="listing-management">
             <h2>Listing Management</h2>
-            <div>
-                <form method="GET" action="adminHosting.php">
-                    <div class="mb-3">
-                        <label for="userId" class="form-label">Select User:</label>
-                        <select class="form-select" id="userId" name="user_id" required>
-                            <?php
-                            // Fetch user data from the database
-                            $usersQuery = "SELECT user_id, first_name, last_name FROM user WHERE user_role != 1";
-                            $usersResult = mysqli_query($conn, $usersQuery);
-
-                            if (mysqli_num_rows($usersResult) > 0) {
-                                while ($userRow = mysqli_fetch_assoc($usersResult)) {
-                                    $userId = $userRow['user_id'];
-                                    $userName = $userRow['first_name'] . " " . $userRow['last_name'];
-                            ?>
-                                    <option value="<?php echo $userId; ?>"><?php echo $userName; ?></option>
-                            <?php
-                                }
-                            } else {
-                                echo "<option disabled>No users found</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <button type="submit" class="mb-3">Proceed to Add Listing</button>
-                </form>
-
-                <button>Edit Listing</button>
-            </div>
             <!-- Listing list -->
             <ul>
                 <?php
@@ -510,36 +519,43 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
 
         <!-- Booking management section -->
         <section id="booking-management">
-            <h2>Booking Management</h2>
-            <!-- Booking management controls -->
-            <div>
-                <button>Approve Booking</button>
-                <button>Reject Booking</button>
-                <button>Cancel Booking</button>
-            </div>
+            <?php
 
+            $rent_query = "
+    SELECT rent.ad_id, rent.user_id, rent.check_in, rent.check_out, 
+           user.first_name, user.last_name, listing.ad_title 
+    FROM rent 
+    JOIN user ON rent.user_id = user.user_id 
+    JOIN listing ON rent.ad_id = listing.ad_id";
+
+            $rent_result = mysqli_query($conn, $rent_query);
+            ?>
+
+            <h2>Booking Management</h2>
             <!-- Booking list -->
-            <ul>
-                <li>Booking 1</li>
-                <li>User 1</li>
-                <li>Date</li>
-                <hr>
-                <li>Booking 2</li>
-                <li>User 2</li>
-                <li>Date</li>
-                <hr>
-                <li>Booking 3</li>
-                <li>User 3</li>
-                <li>Date</li>
-                <hr>
+            <ul class="booking-list">
+                <?php
+                if (mysqli_num_rows($rent_result) > 0) {
+                    while ($rent_row = mysqli_fetch_assoc($rent_result)) {
+                        echo '<li class="booking-item">';
+                        echo 'Booking ID: ' . htmlspecialchars($rent_row['ad_id']) . '<br>';
+                        echo 'User: ' . htmlspecialchars($rent_row['first_name']) . ' ' . htmlspecialchars($rent_row['last_name']) . '<br>';
+                        echo 'Ad Title: ' . htmlspecialchars($rent_row['ad_title']) . '<br>';
+                        echo 'Check-in: ' . htmlspecialchars($rent_row['check_in']) . '<br>';
+                        echo 'Check-out: ' . htmlspecialchars($rent_row['check_out']) . '<br>';
+                        echo '<button class="btn btn-danger mt-2" onclick="cancelBooking(' . htmlspecialchars($rent_row['ad_id']) . ')">Cancel Booking</button>';
+                        echo '<hr>';
+                        echo '</li>';
+                    }
+                } else {
+                    echo '<li>No bookings found.</li>';
+                }
+                // Close connection
+                mysqli_close($conn);
+                ?>
             </ul>
         </section>
     </main>
-
-    <!-- Footer section -->
-    <footer>
-        <p>&copy; 2024 Airbnb. All rights reserved.</p>
-    </footer>
 </body>
 
 </html>
