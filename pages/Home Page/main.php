@@ -23,7 +23,7 @@ function is_favorite($ad_id)
     $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 
     $user_id = $_SESSION['userId'];
-    
+
     // Check if the ad_id is a favorite for the user
     $check_sql = "SELECT * FROM favorites WHERE user_id = ? AND ad_id = ?";
     $stmt = $conn->prepare($check_sql);

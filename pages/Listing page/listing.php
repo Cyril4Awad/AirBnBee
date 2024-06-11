@@ -167,12 +167,10 @@ $conn->close();
 
     <!-- CSS file -->
     <link rel="stylesheet" href="ListingStyle.css" />
+    <link rel="stylesheet" href="./icons.css" />
 
     <!-- Bootstrap style -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <!-- BootStrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -187,6 +185,13 @@ $conn->close();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS Bundle (includes Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <script>
         function validateDates() {
@@ -252,53 +257,68 @@ $conn->close();
             // Calculate the initial total price based on the default values
             calculateTotalPrice();
         });
+
+        function highlightStars(index) {
+            stars.forEach((star, i) => {
+                if (i <= index) {
+                    star.classList.remove('glyphicon-star-empty');
+                    star.classList.add('glyphicon-star');
+                } else {
+                    star.classList.remove('glyphicon-star');
+                    star.classList.add('glyphicon-star-empty');
+                }
+            });
+        }
+
+        // Highlight stars based on current rating on page load
+        highlightStars(currentRating - 1);
     </script>
-    
-<style>
-    .img {
-    padding: 32px 80px;
-}
 
-.img-style {
-    border-radius: 25px 0 0 25px;
-    padding: 5px;
-    width: 693px;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    <style>
+        .img {
+            padding: 32px 80px;
+        }
 
-.img-style1 {
-    border-radius: 0 25px 0px 0;
-    padding: 5px;
-    width: 343px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .img-style {
+            border-radius: 25px 0 0 25px;
+            padding: 5px;
+            width: 693px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.img-style2 {
-    border-radius: 0%;
-    padding: 5px;
-    width: 343px;
-    height: 200px;
-    display: flex;
-        justify-content: center;
-        align-items: center;
-        
-}
+        .img-style1 {
+            border-radius: 0 25px 0px 0;
+            padding: 5px;
+            width: 343px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.img-style3 {
-    border-radius: 0 0px 25px 0;
-    padding: 5px;
-    width: 343px;
-    height: 200px;
-    display: flex;
-        justify-content: center;
-        align-items: center;     
-}
+        .img-style2 {
+            border-radius: 0%;
+            padding: 5px;
+            width: 343px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .img-style3 {
+            border-radius: 0 0px 25px 0;
+            padding: 5px;
+            width: 343px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
     </style>
 </head>
@@ -393,20 +413,26 @@ $conn->close();
 
                 <h2>Rate this listing</h2>
                 <?php
-                // Get the user's rating for the current listing
+                $user_id = $_SESSION['userId'];
+                $ad_id = $row['ad_id'];
+                $hasRated = isset($_SESSION['rated_' . $ad_id]) ? $_SESSION['rated_' . $ad_id] : false;
                 $user_rating = get_user_rating($row['ad_id']);
                 ?>
+
                 <form id="ratingForm" method="post" action="../rating/rating.php">
                     <div class="rating-container mt-2">
                         <div class="rating">
                             <?php for ($i = 1; $i <= 5; $i++) { ?>
-                                <span data-value="<?php echo $i; ?>" class="star<?php echo ($user_rating != null && $i <= $user_rating) ? ' active' : ''; ?>" disabled>&#x2605;</span>
+                                <span data-value="<?php echo $i; ?>" class="glyphicon glyphicon-star<?php echo ($user_rating != null && $i <= $user_rating) ? '' : '-empty'; ?>"></span>
                             <?php } ?>
                         </div>
-                        <input type="hidden" name="ad_id" value="<?php echo $row['ad_id']; ?>">
+                        <span class="glyphicon glyphicon-star"></span>
+
+                        <input type="hidden" name="ad_id" value="<?php echo $ad_id; ?>">
                         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                        <input type="hidden" name="rating" id="ratingValue">
                         <div class="submit-container ml-4">
-                            <button class="btn btn-primary mt-2" id="submitRating" <?php echo ($user_rating != null) ? 'disabled' : ''; ?>>Submit</button>
+                            <button class="btn btn-primary mt-2" id="submitRating">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -443,7 +469,7 @@ $conn->close();
             </div>
 
             <div class="sticky-container">
-                <h1>$ / Night</h1>
+                <h1><?php echo $row['rent_price'] ?>$ / Night</h1>
                 <form class="reservation-form" action="booking.php" method="post" onsubmit="return validateDates()">
                     <div><b>
                             <div class="checkin">
@@ -477,55 +503,5 @@ $conn->close();
         </div>
     </div>
 </body>
-
-<script>
-    $(document).ready(function() {
-        // Check if there is a rating stored in the session
-        var storedRating = <?php echo isset($_SESSION['rating']) ? $_SESSION['rating'] : 'null'; ?>;
-
-        // If there is a stored rating, mark the corresponding stars as selected
-        if (storedRating !== null) {
-            $('.star').each(function(index) {
-                if (index < storedRating) {
-                    $(this).addClass('selected');
-                }
-            });
-        }
-
-        // Function to handle star selection
-        $('.star').click(function() {
-            // Remove 'selected' class from all stars
-            $('.star').removeClass('selected');
-            // Add 'selected' class to clicked star and previous stars
-            $(this).addClass('selected');
-            $(this).prevAll().addClass('selected');
-
-            // Update the stored rating in the session
-            var rating = $(this).index() + 1;
-            <?php $_SESSION['rating'] = "' + rating + '"; ?>;
-        });
-
-        // Function to handle form submission
-        $('#ratingForm').submit(function(event) {
-            event.preventDefault(); // Prevent form submission
-
-            // Count the number of selected stars
-            var rating = $('.star.selected').length;
-
-            // Add the rating value to a hidden input field in the form
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'rating',
-                value: rating
-            }).appendTo('#ratingForm');
-
-            // Update the stored rating in the session
-            <?php $_SESSION['rating'] = "' + rating + '"; ?>;
-
-            // Submit the form
-            this.submit();
-        });
-    });
-</script>
 
 </html>
