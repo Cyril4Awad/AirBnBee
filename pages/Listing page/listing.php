@@ -253,9 +253,10 @@ $conn->close();
             calculateTotalPrice();
         });
     </script>
+    
 <style>
     .img {
-    padding: 5%;
+    padding: 32px 80px;
 }
 
 .img-style {
@@ -266,15 +267,13 @@ $conn->close();
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
 }
 
 .img-style1 {
     border-radius: 0 25px 0px 0;
     padding: 5px;
     width: 343px;
-    height: 207px;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -284,11 +283,10 @@ $conn->close();
     border-radius: 0%;
     padding: 5px;
     width: 343px;
-    height: 207px;
+    height: 200px;
     display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
         
 }
 
@@ -296,12 +294,10 @@ $conn->close();
     border-radius: 0 0px 25px 0;
     padding: 5px;
     width: 343px;
-    height: 207px;
+    height: 200px;
     display: flex;
         justify-content: center;
-        align-items: center;
-        width: 100%;
-        
+        align-items: center;     
 }
 
     </style>
