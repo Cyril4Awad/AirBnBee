@@ -253,7 +253,58 @@ $conn->close();
             calculateTotalPrice();
         });
     </script>
+<style>
+    .img {
+    padding: 5%;
+}
 
+.img-style {
+    border-radius: 25px 0 0 25px;
+    padding: 5px;
+    width: 693px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.img-style1 {
+    border-radius: 0 25px 0px 0;
+    padding: 5px;
+    width: 343px;
+    height: 207px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-style2 {
+    border-radius: 0%;
+    padding: 5px;
+    width: 343px;
+    height: 207px;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        
+}
+
+.img-style3 {
+    border-radius: 0 0px 25px 0;
+    padding: 5px;
+    width: 343px;
+    height: 207px;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        
+}
+
+    </style>
 </head>
 
 <body>
