@@ -5,6 +5,26 @@
     margin-left: 0px;
 }
 
+.carousel-indicators{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none
+}
+
+.carousel-inner>.item {
+    position: relative;
+    display: none;
+    -webkit-transition: .6s ease-in-out left;
+    -o-transition: .6s ease-in-out left;
+    transition: .6s ease-in-out left
+}
+
 /* Reset default margin and padding */
 body, h1, h2, h3, p, ul, li {
     margin: 0;
@@ -60,10 +80,6 @@ section h2 {
     margin-bottom: 10px;
 }
 
-section div {
-    margin-bottom: 20px;
-}
-
 section div button {
     background-color: #333;
     border: none;
@@ -83,7 +99,6 @@ ul {
 }
 
 ul li {
-    padding: 10px;
     border-bottom: 1px solid #eee;
 }
 

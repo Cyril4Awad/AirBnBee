@@ -145,7 +145,7 @@ function is_favorite($ad_id)
     <!-- Carousel Listings -->
     <section id="featured-listings">
         <div class="container-fluid">
-            <h2 style="  text-align: center;padding: 20px;margin: 20px;">Featured Listings</h2>
+            <h2 style="  text-align: center;padding: 16px;margin: 12px;">Featured Listings</h2>
 
             <?php
             $sql = "SELECT * FROM listing";

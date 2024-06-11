@@ -103,7 +103,7 @@ mysqli_close($conn);
         function validateFileInput(input) {
             const maxFiles = 5; // Maximum number of files allowed
             if (input.files.length > maxFiles) {
-                alert(`Maximum ${maxFiles} images allowed.`);
+               any alert(`Maximum ${maxFiles} images allowed.`);
                 input.value = ''; // Clear the file input
             } else if (input.files.length < maxFiles) {
                 alert(`Minimum ${maxFiles} images allowed.`);
