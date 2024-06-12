@@ -9,6 +9,7 @@ $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
 if (!isset($_SESSION['userId'])) {
     header("Location: ../log in/login.php");
     exit();
@@ -20,7 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ad_id = $_POST['ad_id'];
     $rating = $_POST['rating'];
 
-    // Check if the user has already rated this listing
+    // Check if the rating is already stored in session
+    if (isset($_SESSION['rated_' . $ad_id])) {
+        echo 'You have already rated this listing.';
+        header("Location: ../listing page/listing.php?ad_id=$ad_id");
+        exit();
+    }
+
+    // Check if the user has already rated this listing in the database
     $check_sql = "SELECT * FROM rating WHERE ad_id = ? AND user_id = ?";
     $check_stmt = $conn->prepare($check_sql);
     $check_stmt->bind_param("ii", $ad_id, $user_id);
@@ -63,3 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo 'Invalid request method';
 }
+
+$conn->close();
+?>
