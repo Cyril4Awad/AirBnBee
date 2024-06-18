@@ -153,6 +153,24 @@ if ($stmt) {
     die("Error preparing statement: " . $conn->error);
 }
 
+$current_rating = 0;
+$has_rated = false;
+
+// Check if the user has already rated this listing in the database
+$checkrating_sql = "SELECT rating FROM rating WHERE ad_id = ? AND user_id = ?";
+$checkrating_stmt = $conn->prepare($checkrating_sql);
+$checkrating_stmt->bind_param("ii", $ad_id, $user_id);
+$checkrating_stmt->execute();
+$ratingresult = $checkrating_stmt->get_result();
+
+if ($ratingresult->num_rows > 0) {
+    $rating_row = $ratingresult->fetch_assoc();
+    $current_rating = $rating_row['rating'];
+    $_SESSION['rated_' . $ad_id] = true;
+    $has_rated = true;
+}
+
+$checkrating_stmt->close();
 
 $conn->close();
 ?>
@@ -258,20 +276,32 @@ $conn->close();
             calculateTotalPrice();
         });
 
-        function highlightStars(index) {
-            stars.forEach((star, i) => {
-                if (i <= index) {
-                    star.classList.remove('glyphicon-star-empty');
-                    star.classList.add('glyphicon-star');
+        function toggleFavorite(element) {
+            if ($('#submitRating').is(':disabled')) {
+                return;
+            }
+
+            var value = $(element).data('value');
+            $('#ratingValue').val(value);
+
+            var stars = $('.rating .glyphicon');
+            for (var i = 0; i < stars.length; i++) {
+                if (i < value) {
+                    $(stars[i]).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
                 } else {
-                    star.classList.remove('glyphicon-star');
-                    star.classList.add('glyphicon-star-empty');
+                    $(stars[i]).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
                 }
-            });
+            }
         }
 
-        // Highlight stars based on current rating on page load
-        highlightStars(currentRating - 1);
+        $(document).ready(function() {
+            $('#submitRating').click(function(e) {
+                if ($('#ratingValue').val() === "") {
+                    alert("Please select a rating.");
+                    e.preventDefault();
+                }
+            });
+        });
     </script>
 
     <style>
@@ -320,6 +350,9 @@ $conn->close();
             align-items: center;
         }
 
+        .rating .glyphicon-star {
+            color: gold;
+        }
     </style>
 </head>
 
@@ -418,21 +451,17 @@ $conn->close();
                 $hasRated = isset($_SESSION['rated_' . $ad_id]) ? $_SESSION['rated_' . $ad_id] : false;
                 $user_rating = get_user_rating($row['ad_id']);
                 ?>
-
                 <form id="ratingForm" method="post" action="../rating/rating.php">
                     <div class="rating-container mt-2">
                         <div class="rating">
                             <?php for ($i = 1; $i <= 5; $i++) { ?>
-                                <span data-value="<?php echo $i; ?>" class="glyphicon glyphicon-star<?php echo ($user_rating != null && $i <= $user_rating) ? '' : '-empty'; ?>"></span>
+                                <span data-value="<?php echo $i; ?>" class="glyphicon <?php echo ($i <= $current_rating) ? 'glyphicon-star' : 'glyphicon-star-empty'; ?>" onclick="toggleFavorite(this)" <?php echo $has_rated ? 'style="pointer-events: none;"' : ''; ?>></span>
                             <?php } ?>
                         </div>
-                        <span class="glyphicon glyphicon-star"></span>
-
                         <input type="hidden" name="ad_id" value="<?php echo $ad_id; ?>">
-                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                        <input type="hidden" name="rating" id="ratingValue">
+                        <input type="hidden" name="rating" id="ratingValue" value="<?php echo $current_rating; ?>">
                         <div class="submit-container ml-4">
-                            <button class="btn btn-primary mt-2" id="submitRating">Submit</button>
+                            <button class="btn btn-primary mt-2" id="submitRating" <?php echo $has_rated ? 'disabled' : ''; ?>>Submit</button>
                         </div>
                     </div>
                 </form>
