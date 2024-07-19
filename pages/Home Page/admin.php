@@ -110,10 +110,10 @@ function is_favorite($ad_id)
                         <a class="nav-link" href="../admin page/dashboard.php">Admin Dashboard</a>
                     </li>
                 </ul>
-                <form class="d-flex">
+                <!-- <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                </form> -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
                         <ul class="navbar-nav">

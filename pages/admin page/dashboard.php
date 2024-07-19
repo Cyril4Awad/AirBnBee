@@ -424,8 +424,10 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
             <!-- User management controls -->
             <div>
                 <form action="" method="POST" style="display:inline;">
+                    <div style="padding:15px 0" >
                     <input type="text" name="firstName" placeholder="First Name" required>
                     <input type="text" name="lastName" placeholder="Last Name" required>
+</div>
                     <input type="email" name="email" placeholder="Email" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <input type="number" name="phoneNumber" placeholder="Phone Number" required>
@@ -692,7 +694,7 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
                         <option value="Zambia">Zambia</option>
                         <option value="Zimbabwe">Zimbabwe</option>
                     </select>
-                    <button type="submit" name="addUser">Add User</button>
+                    <button style="padding:3px" type="submit" name="addUser">Add User</button>
                 </form>
             </div>
             <!-- User list -->
@@ -702,7 +704,9 @@ $users = mysqli_query($conn, "SELECT * FROM user where user_role != 1");
                         <?php echo $row['first_name'] . " " . $row['last_name']; ?> (ID: <?php echo $row['user_id']; ?>)
                         <form action="" method="POST" style="display:inline;">
                             <input type="hidden" name="userId" value="<?php echo $row['user_id']; ?>">
-                            <button type="submit" name="deleteUser">Delete</button>
+                            <div>
+                            <button style="padding:3px ; margin:5px 0" type="submit" name="deleteUser">Delete</button>
+                </div>
                         </form>
                     </li>
                 <?php } ?>
