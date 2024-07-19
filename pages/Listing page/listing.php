@@ -408,9 +408,11 @@ $conn->close();
 
     <div class="row no-gutters img">
         <div class="tile col-lg-6">
-            <a href="<?php echo $uploadDir . $file_paths[0]; ?>">
-                <img src="<?php echo $uploadDir . $file_paths[0]; ?>" class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
-            </a>
+
+
+
+        <img src="<?php echo $uploadDir . $file_paths[0]; ?>" class="img-fluid img-style" alt="Responsive image" style="opacity: 1;">
+
         </div>
         <div class="tile col-lg-6">
             <div class="row no-gutters">
@@ -479,7 +481,7 @@ $conn->close();
                 <!-- Price section -->
                 <div class="section-title">Price:</div>
                 <div class="section-content">
-                    <p><?php echo $row['rent_price']; ?> per night</p>
+                    <p><?php echo $row['rent_price']; ?> $ per night</p>
                 </div>
                 <!-- Location section -->
                 <div class="section-title">Location:</div>

@@ -185,7 +185,6 @@ mysqli_close($conn);
 
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">My profile</a>
-                                    <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
                                 </div>
                             </li>

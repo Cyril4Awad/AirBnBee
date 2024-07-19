@@ -46,15 +46,12 @@ $listing_count = $row_listing_count['listing_count'];
 <html>
 
 <head>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
@@ -67,10 +64,10 @@ $listing_count = $row_listing_count['listing_count'];
             margin-right: -30px;
             margin-left: 0px;
         }
-        
     </style>
     <title>Profile </title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -87,7 +84,7 @@ $listing_count = $row_listing_count['listing_count'];
                         <a class="nav-link" href="<?php echo $_SESSION['userRole'] == 1 ? '../Home Page/admin.php' : '../Home Page/main.php'; ?>">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Booking</a>
+                        <a class="nav-link active" href="#">My Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Create Listing/hosting.php">Host Your Ad</a>
@@ -108,7 +105,6 @@ $listing_count = $row_listing_count['listing_count'];
                                     } ?>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="../profile/profile.php">My profile</a>
                                     <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
                                     <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
@@ -135,7 +131,11 @@ $listing_count = $row_listing_count['listing_count'];
                                         echo $fName . " " . $lName;
                                         ?>
                                         </a></h2>
-                                    <h6 class="d-block"><?php echo $listing_count; ?> listings</h6>
+                                    <h6 class="d-block"><?php echo $listing_count; ?> <?php if ($listing_count > 1) {
+                                                                                            echo "listings";
+                                                                                        } else {
+                                                                                            echo "listing";
+                                                                                        } ?></h6>
                                 </div>
                                 <div class="ml-auto">
                                     <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />

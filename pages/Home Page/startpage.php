@@ -88,13 +88,6 @@ if (!$conn) {
                 </nav>
 
     </nav>
-
-    <div class="map-container">
-        <a href="../../pages/map/map.html">
-            <button class="mapbutton">Show map</button>
-        </a>
-    </div>
-
     <!-- Carousel Listings -->
     <section id="featured-listings">
         <div class="container-fluid">

@@ -129,6 +129,7 @@ function is_favorite($ad_id)
                                     <a class="dropdown-item" href="../profile/profile.php">My profile</a>
                                     <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
                                     <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
+                                    <a class="dropdown-item" href="../Manage Bookings/managebookings.php">My Bookings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
                                 </div>
                             </li>
@@ -138,12 +139,6 @@ function is_favorite($ad_id)
             </div>
         </div>
     </nav>
-
-    <div class="map-container">
-        <a href="../../pages/map/map.html">
-            <button class="mapbutton">Show map</button>
-        </a>
-    </div>
 
     <!-- Carousel Listings -->
     <section id="featured-listings">

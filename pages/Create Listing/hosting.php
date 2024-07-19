@@ -103,7 +103,7 @@ mysqli_close($conn);
         function validateFileInput(input) {
             const maxFiles = 5; // Maximum number of files allowed
             if (input.files.length > maxFiles) {
-               any alert(`Maximum ${maxFiles} images allowed.`);
+                alert(`Maximum ${maxFiles} images allowed.`);
                 input.value = ''; // Clear the file input
             } else if (input.files.length < maxFiles) {
                 alert(`Minimum ${maxFiles} images allowed.`);
@@ -111,7 +111,12 @@ mysqli_close($conn);
             }
         }
     </script>
-
+<style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+</style>
 </head>
 
 <body>
@@ -136,7 +141,6 @@ mysqli_close($conn);
                     <li class="nav-item">
                         <a class="nav-link active">Host Your Ad</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
                     </li>
@@ -164,8 +168,8 @@ mysqli_close($conn);
 
 
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">My profile</a>
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item" href="../Profile/profile.php">My profile</a>
+                                    <a class="dropdown-item" href="../Manage Bookings/managebookings.php">My Bookings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
                                 </div>
                             </li>

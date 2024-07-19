@@ -89,10 +89,6 @@ if (!isset($_SESSION['userId'])) {
                         <a class="nav-link" href="../about us page/aboutus.php">About Us</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
                         <ul class="navbar-nav">
@@ -106,8 +102,8 @@ if (!isset($_SESSION['userId'])) {
                                 </a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="../Profile/profile.php">My profile</a>
-                                    <a class="dropdown-item" href="../favorites/favorites.php">Favorites</a>
                                     <a class="dropdown-item" href="../Manage Listings/manage.php">Manage Listings</a>
+                                    <a class="dropdown-item" href="../Manage Bookings/managebookings.php">My Bookings</a>
                                     <a class="dropdown-item" href="../log out/logout.php">Logout</a>
                                 </div>
                             </li>
